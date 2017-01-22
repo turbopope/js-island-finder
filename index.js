@@ -30,21 +30,16 @@ function log_properties(obj) {
 
 function forEachJSFileRecursive(path, callback) {
   if (!path.endsWith('/')) { path += '/' }
-  fs.readdir(path, function(err, files){
-    if (err) throw err;
 
-    files.forEach(function(file) {
-      fs.stat(path + file, function(err, stats){
-        if (err) throw err;
-        if (stats.isDirectory()) {
-          forEachJSFileRecursive(path + file, callback);
-        } else if (file.endsWith('.js')) {
-          fs.readFile(path + file, 'utf-8', function(err, contents) {
-            callback(path + file, contents);
-          });
-        }
-      });
-    });
+  const files = fs.readdirSync(path);
+  files.forEach(file => {
+    const stats = fs.statSync(path + file);
+    if (stats.isDirectory()) {
+      forEachJSFileRecursive(path + file, callback);
+    } else if (file.endsWith('.js')) {
+      const contents = fs.readFileSync(path + file, 'utf-8');
+      callback(path + file, contents);
+    }
   });
 }
 
@@ -87,5 +82,6 @@ forEachJSFileRecursive(repo, function(filename, contents) {
   walker.handleNode(ast);
   mergeUses(uses, walker._uses);
   // console.dir(walker._uses, { colors: true });
-  console.dir(uses, { colors: true });
 });
+
+console.dir(uses, { colors: true });
