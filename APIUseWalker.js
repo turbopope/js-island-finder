@@ -56,7 +56,7 @@ class APIUseWalker extends ASTWalker {
   author(repo, file, line, callback) {
     const cmd = `git blame -p -L ${line},${line} ${file}`;
     // console.log(`e xec ${cmd} in ${repo}`);
-    exec(cmd, { cwd: repo, shell: '/bin/bash' }, (error, stdout, stderr) => {
+    exec(cmd, { cwd: repo }, (error, stdout, stderr) => {
       if (error) throw error;
       callback(`${stdout.split("\n")[1].replace('author ', '')}`);
     });
