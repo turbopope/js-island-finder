@@ -1,7 +1,7 @@
 "use strict";
 
 const ASTWalker = require('./ASTWalker');
-const exec = require('child_process').exec;
+const execSync = require('child_process').execSync;
 
 class APIUseWalker extends ASTWalker {
   constructor(repo, file) {
@@ -47,19 +47,16 @@ class APIUseWalker extends ASTWalker {
           throw `Unknown callee: ${callee.type}`;
       }
 
-      this.author(this._repo, this._file, line, author => {
-        console.log(`${line}: ${type} ${expName} by ${author}`);
-      });
+      const author = this.author(this._repo, this._file, line)
+      console.log(`${line}: ${type} ${expName} by ${author}`);
     });
   }
 
-  author(repo, file, line, callback) {
+  author(repo, file, line) {
     const cmd = `git blame -p -L ${line},${line} ${file}`;
     // console.log(`e xec ${cmd} in ${repo}`);
-    exec(cmd, { cwd: repo }, (error, stdout, stderr) => {
-      if (error) throw error;
-      callback(`${stdout.split("\n")[1].replace('author ', '')}`);
-    });
+    const stdout = execSync(cmd, { cwd: repo, encoding: 'utf-8' });
+    return stdout.split("\n")[1].replace('author ', '');
   }
 
 }
