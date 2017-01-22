@@ -1,0 +1,12 @@
+#!/usr/bin/node
+
+const esprima = require('esprima');
+const fs = require('fs');
+
+console.dir(
+  esprima.parse(
+    fs.readFileSync(process.argv[2], 'utf-8'),
+    { loc: true, tolerant: true }
+  ),
+  { colors: true, depth: null}
+);
