@@ -56,6 +56,7 @@ forEachJSFileRecursive(repo, function(filename, contents) {
   }
 
   walker.handleNode(ast);
+  walker.finalize();
   mergeUses(uses, walker._uses);
 });
 

@@ -71,6 +71,11 @@ class APIUseWalker extends ASTWalker {
     this._uses[callee][author] = this._uses[callee][author] + 1;
   }
 
+  // Call when all nodes have been handled
+  finalize() {
+    
+  }
+
 }
 
 
