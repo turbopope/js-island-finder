@@ -14,6 +14,12 @@ class APIUseWalker extends ASTWalker {
       const callee = callExpression.callee;
       const line = callExpression.loc.start.line;
       const type = callExpression.callee.type;
+
+      if (callee.name === 'require') {
+        const required = callExpression.arguments[0].value;
+        console.log(`require('${required}')`);
+      }
+
       let expName = '';
 
       switch (type) {
@@ -73,7 +79,7 @@ class APIUseWalker extends ASTWalker {
 
   // Call when all nodes have been handled
   finalize() {
-    
+
   }
 
 }
