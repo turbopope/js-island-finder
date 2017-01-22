@@ -43,7 +43,7 @@ function mergeUses(a, b) {
 
 
 const repo = process.argv[2];
-const uses = {};
+const globalUses = {};
 
 forEachJSFileRecursive(repo, function(filename, contents) {
   console.log(filename.green);
@@ -57,7 +57,15 @@ forEachJSFileRecursive(repo, function(filename, contents) {
 
   walker.handleNode(ast);
   walker.finalize();
-  mergeUses(uses, walker._uses);
+  const uses = walker._uses;
+  const requires = walker._requires;
+  var requiredAndUsed = {};
+  Object.getOwnPropertyNames(walker._requires).forEach(required => {
+    if (uses.hasOwnProperty(required)) {
+      requiredAndUsed[required] = uses[required];
+    }
+  });
+  mergeUses(globalUses, requiredAndUsed);
 });
 
-console.dir(uses, { colors: true });
+console.dir(globalUses, { colors: true });

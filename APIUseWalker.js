@@ -9,6 +9,7 @@ class APIUseWalker extends ASTWalker {
     this._repo = repo;
     this._file = file;
     this._uses = {};
+    this._requires = {};
 
     this.add_watcher('VariableDeclarator', variableDeclarator => {
       // console.dir(variableDeclarator);
@@ -20,6 +21,7 @@ class APIUseWalker extends ASTWalker {
       ) {
         const vName = variableDeclarator.id.name;
         const required = variableDeclarator.init.arguments[0].value;
+        this._requires[vName] = required;
         console.log(`${vName} = require('${required}')`);
       }
     });
