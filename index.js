@@ -48,8 +48,29 @@ function forEachJSFileRecursive(path, callback) {
   });
 }
 
+function mergeUses(a, b) {
+  const bCallees = Object.getOwnPropertyNames(b);
+  bCallees.forEach(callee => {
+    if (a.hasOwnProperty(callee)) {
+      const aAuthors = Object.getOwnPropertyNames(a[callee]);
+      const bAuthors = Object.getOwnPropertyNames(b[callee]);
+      bAuthors.forEach(author => {
+        if (aAuthors.indexOf(author) > -1) {
+          a[callee][author] += b[callee][author];
+        } else {
+          a[callee][author] = b[callee][author];
+        }
+      });
+    } else {
+      a[callee] = b[callee];
+    }
+  });
+  return a;
+}
+
 
 const repo = process.argv[2];
+const uses = {};
 
 forEachJSFileRecursive(repo, function(filename, contents) {
   console.log(filename.green);
@@ -62,5 +83,9 @@ forEachJSFileRecursive(repo, function(filename, contents) {
     return;
   }
   // console.dir(ast, { depth: null, colors: true });
+
   walker.handleNode(ast);
+  mergeUses(uses, walker._uses);
+  // console.dir(walker._uses, { colors: true });
+  console.dir(uses, { colors: true });
 });

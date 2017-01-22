@@ -8,6 +8,7 @@ class APIUseWalker extends ASTWalker {
     super();
     this._repo = repo;
     this._file = file;
+    this._uses = {};
 
     this.add_watcher('CallExpression', callExpression => {
       const callee = callExpression.callee;
@@ -48,7 +49,8 @@ class APIUseWalker extends ASTWalker {
       }
 
       const author = this.author(this._repo, this._file, line)
-      console.log(`${line}: ${type} ${expName} by ${author}`);
+      this.record_use(expName, author);
+      // console.log(`${line}: ${type} ${expName} by ${author}`);
     });
   }
 
@@ -57,6 +59,16 @@ class APIUseWalker extends ASTWalker {
     // console.log(`e xec ${cmd} in ${repo}`);
     const stdout = execSync(cmd, { cwd: repo, encoding: 'utf-8' });
     return stdout.split("\n")[1].replace('author ', '');
+  }
+
+  record_use(callee, author) {
+    if (!this._uses.hasOwnProperty(callee)) {
+      this._uses[callee] = {}
+    }
+    if (!this._uses[callee].hasOwnProperty(author)) {
+      this._uses[callee][author] = 0;
+    }
+    this._uses[callee][author] = this._uses[callee][author] + 1;
   }
 
 }
