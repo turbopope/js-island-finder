@@ -10,15 +10,24 @@ class APIUseWalker extends ASTWalker {
     this._file = file;
     this._uses = {};
 
+    this.add_watcher('VariableDeclarator', variableDeclarator => {
+      // console.dir(variableDeclarator);
+
+      if (
+        variableDeclarator.init &&
+        variableDeclarator.init.type == 'CallExpression' &&
+        variableDeclarator.init.callee.name === 'require'
+      ) {
+        const vName = variableDeclarator.id.name;
+        const required = variableDeclarator.init.arguments[0].value;
+        console.log(`${vName} = require('${required}')`);
+      }
+    });
+
     this.add_watcher('CallExpression', callExpression => {
       const callee = callExpression.callee;
       const line = callExpression.loc.start.line;
       const type = callExpression.callee.type;
-
-      if (callee.name === 'require') {
-        const required = callExpression.arguments[0].value;
-        console.log(`require('${required}')`);
-      }
 
       let expName = '';
 
