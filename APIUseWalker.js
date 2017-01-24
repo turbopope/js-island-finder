@@ -88,9 +88,21 @@ class APIUseWalker extends ASTWalker {
     this._uses[callee][author] = this._uses[callee][author] + 1;
   }
 
+  pruneUnrequired() {
+    const requires = this._requires;
+    const uses = this._uses;
+    var requiredAndUsed = {};
+    Object.getOwnPropertyNames(requires).forEach(required => {
+      if (uses.hasOwnProperty(required)) {
+        requiredAndUsed[required] = uses[required];
+      }
+    });
+    this._uses = requiredAndUsed;
+  }
+
   // Call when all nodes have been handled
   finalize() {
-
+    this.pruneUnrequired();
   }
 
 }

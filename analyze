@@ -63,15 +63,7 @@ forEachJSFileRecursive(repo, function(filename, contents) {
 
   walker.handleNode(ast);
   walker.finalize();
-  const uses = walker._uses;
-  const requires = walker._requires;
-  var requiredAndUsed = {};
-  Object.getOwnPropertyNames(walker._requires).forEach(required => {
-    if (uses.hasOwnProperty(required)) {
-      requiredAndUsed[required] = uses[required];
-    }
-  });
-  mergeUses(globalUses, requiredAndUsed);
+  mergeUses(globalUses, walker._uses);
 });
 
 console.dir(globalUses, { colors: true });
