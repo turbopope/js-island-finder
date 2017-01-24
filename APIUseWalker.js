@@ -17,7 +17,8 @@ class APIUseWalker extends ASTWalker {
       if (
         variableDeclarator.init &&
         variableDeclarator.init.type == 'CallExpression' &&
-        variableDeclarator.init.callee.name === 'require'
+        variableDeclarator.init.callee.name === 'require' &&
+        variableDeclarator.init.arguments[0].value
       ) {
         const vName = variableDeclarator.id.name;
         const mName = variableDeclarator.init.arguments[0].value;
@@ -103,8 +104,6 @@ class APIUseWalker extends ASTWalker {
 
   // Removes all requires of local (non-npm) modules
   pruneLocalModuleRequires() {
-    // console.dir(this._uses)
-    // console.dir(this._requires)
     this._requires.forEach((mName, vName) => {
       if (mName.startsWith('.')) {
         this._requires.delete(vName);
