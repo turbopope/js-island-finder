@@ -100,8 +100,17 @@ class APIUseWalker extends ASTWalker {
     this._uses = requiredAndUsed;
   }
 
+  pruneLocalModuleRequires() {
+    Object.getOwnPropertyNames(this._requires).forEach(vName => {
+      if (this._requires[vName].startsWith('.')) {
+        delete this._requires[vName];
+      }
+    });
+  }
+
   // Call when all nodes have been handled
   finalize() {
+    this.pruneLocalModuleRequires();
     this.pruneUnrequired();
   }
 
