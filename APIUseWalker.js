@@ -88,6 +88,7 @@ class APIUseWalker extends ASTWalker {
     this._uses[callee][author] = this._uses[callee][author] + 1;
   }
 
+  // Removes all calls on callees that have not been required
   pruneUnrequired() {
     const requires = this._requires;
     const uses = this._uses;
@@ -100,6 +101,7 @@ class APIUseWalker extends ASTWalker {
     this._uses = requiredAndUsed;
   }
 
+  // Removes all requires of local (non-npm) modules
   pruneLocalModuleRequires() {
     Object.getOwnPropertyNames(this._requires).forEach(vName => {
       if (this._requires[vName].startsWith('.')) {
@@ -108,10 +110,26 @@ class APIUseWalker extends ASTWalker {
     });
   }
 
+  // Resolves vNames to module names
+  normalizeVNamesToModules() {
+    Object.getOwnPropertyNames(this._requires).forEach(vName => {
+      let required = this._requires[vName];
+      let temp = this._uses[vName]; // Clones?
+      if (temp === undefined) {
+        // TODO: These were probably required for a reason. Investigate why they are not used.
+        console.warn(`Unused required module ${vName} = ${required}`);
+        return;
+      }
+      delete this._uses[vName];
+      this._uses[required] = temp;
+    });
+  }
+
   // Call when all nodes have been handled
   finalize() {
     this.pruneLocalModuleRequires();
     this.pruneUnrequired();
+    this.normalizeVNamesToModules();
   }
 
 }
