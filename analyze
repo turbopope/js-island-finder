@@ -66,4 +66,4 @@ forEachJSFileRecursive(repo, function(filename, contents) {
   mergeUses(globalUses, walker._uses);
 });
 
-console.dir(globalUses, { colors: true });
+console.dir(globalUses, { colors: true, depth: null });
