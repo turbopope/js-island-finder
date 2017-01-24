@@ -8,8 +8,8 @@ class APIUseWalker extends ASTWalker {
     super();
     this._repo = repo;
     this._file = file;
-    this._uses = {};
-    this._requires = {};
+    this._uses = new Map();
+    this._requires = new Map();
 
     this.add_watcher('VariableDeclarator', variableDeclarator => {
       // console.dir(variableDeclarator);
@@ -20,9 +20,9 @@ class APIUseWalker extends ASTWalker {
         variableDeclarator.init.callee.name === 'require'
       ) {
         const vName = variableDeclarator.id.name;
-        const required = variableDeclarator.init.arguments[0].value;
-        this._requires[vName] = required;
-        console.log(`${vName} = require('${required}')`);
+        const mName = variableDeclarator.init.arguments[0].value;
+        this._requires.set(vName, mName);
+        console.log(`${vName} = require('${mName}')`);
       }
     });
 
@@ -79,23 +79,23 @@ class APIUseWalker extends ASTWalker {
   }
 
   record_use(callee, author) {
-    if (!this._uses.hasOwnProperty(callee)) {
-      this._uses[callee] = {}
+    if (!this._uses.has(callee)) {
+      this._uses.set(callee, new Map());
     }
-    if (!this._uses[callee].hasOwnProperty(author)) {
-      this._uses[callee][author] = 0;
+    if (!this._uses.get(callee).has(author)) {
+      this._uses.get(callee).set(author, 0);
     }
-    this._uses[callee][author] = this._uses[callee][author] + 1;
+    this._uses.get(callee).set(author, this._uses.get(callee).get(author) + 1);
   }
 
   // Removes all calls on callees that have not been required
   pruneUnrequired() {
     const requires = this._requires;
     const uses = this._uses;
-    var requiredAndUsed = {};
-    Object.getOwnPropertyNames(requires).forEach(required => {
-      if (uses.hasOwnProperty(required)) {
-        requiredAndUsed[required] = uses[required];
+    var requiredAndUsed = new Map();
+    this._requires.forEach((mName, vName) => {
+      if (uses.has(vName)) {
+        requiredAndUsed.set(vName, uses.get(vName));
       }
     });
     this._uses = requiredAndUsed;
@@ -103,25 +103,26 @@ class APIUseWalker extends ASTWalker {
 
   // Removes all requires of local (non-npm) modules
   pruneLocalModuleRequires() {
-    Object.getOwnPropertyNames(this._requires).forEach(vName => {
-      if (this._requires[vName].startsWith('.')) {
-        delete this._requires[vName];
+    // console.dir(this._uses)
+    // console.dir(this._requires)
+    this._requires.forEach((mName, vName) => {
+      if (mName.startsWith('.')) {
+        this._requires.delete(vName);
       }
     });
   }
 
   // Resolves vNames to module names
   normalizeVNamesToModules() {
-    Object.getOwnPropertyNames(this._requires).forEach(vName => {
-      let required = this._requires[vName];
-      let temp = this._uses[vName]; // Clones?
+    this._requires.forEach((mName, vName) => {
+      let temp = this._uses.get(vName); // Clone?
       if (temp === undefined) {
         // TODO: These were probably required for a reason. Investigate why they are not used.
-        console.warn(`Unused required module ${vName} = ${required}`);
+        console.warn(`Unused required module ${vName} = ${mName}`);
         return;
       }
-      delete this._uses[vName];
-      this._uses[required] = temp;
+      this._uses.delete(vName);
+      this._uses.set(mName, temp);
     });
   }
 
