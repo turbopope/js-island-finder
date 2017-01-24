@@ -1,3 +1,5 @@
+"use strict";
+
 const fs = require('fs');
 const esprima = require('esprima');
 const APIUseWalker = require('./APIUseWalker');
@@ -48,10 +50,12 @@ const globalUses = {};
 forEachJSFileRecursive(repo, function(filename, contents) {
   console.log(filename.green);
   const walker = new APIUseWalker(repo, filename);
+  let ast = null;
   try {
-    const ast = esprima.parse(contents, { loc: true, tolerant: true });
+    ast = esprima.parse(contents, { loc: true, tolerant: true });
   } catch(err) {
     console.error('Could not parse!');
+    console.dir(err);
     return;
   }
 
