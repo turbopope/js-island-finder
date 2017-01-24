@@ -25,6 +25,22 @@ function forEachJSFileRecursive(path, callback) {
   });
 }
 
+// Sorts a key -> Number map
+function sortMap(map) {
+  let result = new Map();
+  while (map.size > 0) {
+    let maxValueKey = map.keys().next().value; // Random key
+    map.forEach((value, key) => {
+      if (value > map.get(maxValueKey)) {
+        maxValueKey = key;
+      }
+    });
+    result.set(maxValueKey, map.get(maxValueKey));
+    map.delete(maxValueKey);
+  }
+  return result;
+}
+
 function mergeUses(a, b) {
   // console.dir(a)
   // console.dir(b)
@@ -83,4 +99,10 @@ forEachJSFileRecursive(repo, function(filename, contents) {
   mergeUses(globalUses, walker._uses);
 });
 
-console.dir(globalUses, { colors: true, depth: null });
+// console.dir(globalUses, { colors: true, depth: null });
+globalUses.forEach((useage, mName) => {
+  console.log(mName);
+  sortMap(useage).forEach((amount, author) => {
+    console.log('  ' + author.green + ': ' + amount);
+  })
+});
