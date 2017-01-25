@@ -1,13 +1,14 @@
 {
   "name": "node-island-finder",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Finds Islands of Knowledge in Node Git Repositories",
+  "main": "analyze",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Marco Brack",
   "license": "ISC",
+  "repository": "https://github.com/turbopope/node-island-finder",
   "dependencies": {
     "colors": "^1.1.2",
     "esprima": "^3.1.3",
