@@ -54,7 +54,7 @@ forEachJSFileRecursive(repo, function(filename, contents) {
 // console.dir(globalUses, { colors: true, depth: null });
 globalUses.forEach((useage, mName) => {
   console.log(mName);
-  uses.sortMap(useage).forEach((amount, author) => {
+  uses.sortUses(useage).forEach((amount, author) => {
     console.log('  ' + author.green + ': ' + amount);
   })
 });
