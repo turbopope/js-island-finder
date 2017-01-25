@@ -1,4 +1,4 @@
-# JavaScript Island Finder
+# Node Island Finder
 
 Finds Islands of Knowledge in Node Git Repositories.
 
