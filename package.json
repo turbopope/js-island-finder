@@ -4,7 +4,9 @@
   "description": "Finds Islands of Knowledge in Node Git Repositories",
   "main": "analyze",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "analyze": "./analyze",
+    "parse": "./parse"
   },
   "author": "Marco Brack",
   "license": "ISC",
