@@ -7,58 +7,10 @@ const esprima = require('esprima');
 const APIUseWalker = require('./lib/APIUseWalker');
 const colors = require('colors');
 const crypto = require('crypto');
+const forEachJSFileRecursive = require('./lib/util').forEachJSFileRecursive;
+const uses = require('./lib/uses');
 
 
-
-function forEachJSFileRecursive(path, callback) {
-  if (!path.endsWith('/')) { path += '/' }
-
-  const files = fs.readdirSync(path);
-  files.forEach(file => {
-    const stats = fs.statSync(path + file);
-    if (stats.isDirectory()) {
-      forEachJSFileRecursive(path + file, callback);
-    } else if (file.endsWith('.js')) {
-      const contents = fs.readFileSync(path + file, 'utf-8');
-      callback(path + file, contents);
-    }
-  });
-}
-
-// Sorts a key -> Number map
-function sortMap(map) {
-  let result = new Map();
-  while (map.size > 0) {
-    let maxValueKey = map.keys().next().value; // Random key
-    map.forEach((value, key) => {
-      if (value > map.get(maxValueKey)) {
-        maxValueKey = key;
-      }
-    });
-    result.set(maxValueKey, map.get(maxValueKey));
-    map.delete(maxValueKey);
-  }
-  return result;
-}
-
-function mergeUses(a, b) {
-  // console.dir(a)
-  // console.dir(b)
-  b.forEach((_, callee) => {
-    if (a.has(callee)) {
-      b.get(callee).forEach((_, author) => {
-        if (a.get(callee).has(author)) {
-          a.get(callee).set(author, a.get(callee).get(author) + b.get(callee).get(author));
-        } else {
-          a.get(callee).set(author, b.get(callee).get(author));
-        }
-      });
-    } else {
-      a.set(callee, b.get(callee));
-    }
-  });
-  return a;
-}
 
 // Retrieves the AST of the given file contents
 // A cached AST will be returned if available
@@ -96,13 +48,13 @@ forEachJSFileRecursive(repo, function(filename, contents) {
   const walker = new APIUseWalker(repo, filename);
   walker.handleNode(ast);
   walker.finalize();
-  mergeUses(globalUses, walker._uses);
+  uses.mergeUses(globalUses, walker._uses);
 });
 
 // console.dir(globalUses, { colors: true, depth: null });
 globalUses.forEach((useage, mName) => {
   console.log(mName);
-  sortMap(useage).forEach((amount, author) => {
+  uses.sortMap(useage).forEach((amount, author) => {
     console.log('  ' + author.green + ': ' + amount);
   })
 });
