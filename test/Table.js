@@ -28,6 +28,18 @@ describe('Table', function() {
     });
   });
 
+  describe('#setOrAdd()', function() {
+    it('should set the date if new', function() {
+      table.setOrAdd('r', 'c', 1);
+      assert.equal(1, table.get('r', 'c'));
+    });
+    it('should sum the dates if the date already exists', function() {
+      table.setOrAdd('r', 'c', 1);
+      table.setOrAdd('r', 'c', 1);
+      assert.equal(2, table.get('r', 'c'));
+    });
+  });
+
   describe('#csv()', function() {
     it('should produce the expected CSV string (one date)', function() {
       table.set('r', 'c', 1);
