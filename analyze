@@ -9,6 +9,7 @@ const colors = require('colors');
 const crypto = require('crypto');
 const forEachJSFileRecursive = require('./lib/util').forEachJSFileRecursive;
 const uses = require('./lib/uses');
+const Table = require('./lib/Table');
 
 
 
@@ -52,9 +53,15 @@ forEachJSFileRecursive(repo, function(filename, contents) {
 });
 
 // console.dir(globalUses, { colors: true, depth: null });
+let usesTable = new Table(0);
 globalUses.forEach((useage, mName) => {
   console.log(mName);
   uses.sortUses(useage).forEach((amount, author) => {
     console.log('  ' + author.green + ': ' + amount);
+    usesTable.setOrAdd(author, mName, amount);
   })
 });
+const repoSplits = repo.split('/').reverse();
+const repoName = repoSplits[0] || repoSplits[1];
+const timecode = new Date().toISOString();
+fs.writeFileSync(`out/${repoName}_${timecode}.csv`, usesTable.toCSV());
