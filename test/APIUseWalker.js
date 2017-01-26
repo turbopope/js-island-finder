@@ -36,4 +36,27 @@ describe('APIUseWalker', function() {
       assert.include(Array.from(walker._uses.keys()), 'Promise');
     });
   });
+
+  describe('#pruneLocalModuleRequires()', function() {
+    let walker;
+    before(function() {
+      walker = new APIUseWalker();
+      walker.record_require('fs', 'fs');
+      walker.record_require('request', 'request');
+      walker.record_require('a', './a');
+      walker.record_require('c', '../b/c');
+      walker.pruneLocalModuleRequires();
+    })
+
+    it('should retain requires of node modules', function() {
+      assert.include(Array.from(walker._requires.keys()), 'fs');
+    });
+    it('should retain requires of npm modules', function() {
+      assert.include(Array.from(walker._requires.keys()), 'request');
+    });
+    it('should remove requires of internal modules', function() {
+      assert.notInclude(Array.from(walker._requires.keys()), 'a');
+      assert.notInclude(Array.from(walker._requires.keys()), 'c');
+    });
+  });
 });
