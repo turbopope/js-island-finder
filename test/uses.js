@@ -69,4 +69,63 @@ describe('uses', function() {
       assert.deepEqual(ab, uses.mergeUses(a, b));
     });
   });
+
+  describe('#serializeMap()', function() {
+    it('should produce a json object', function() {
+      let map = new Map();
+      map.set('a', 1);
+      map.set('b', 'b');
+      assert.equal(
+        '{a:1,b:"b"}',
+        uses.serializeMap(map)
+      );
+    });
+    it('should recurse through nested objects', function() {
+      let map = new Map();
+      let nestedMap = new Map();
+      nestedMap.set('b', 'b');
+      map.set('a', nestedMap);
+      assert.equal(
+        '{a:{b:"b"}}',
+        uses.serializeMap(map)
+      );
+    });
+    it('should reject invalid keys', function() {
+      let mapWithObject = new Map();
+      mapWithObject.set({}, 1);
+      let mapWithArray = new Map();
+      mapWithArray.set([], 1);
+      let mapWithUndefined = new Map();
+      mapWithUndefined.set(undefined, 1);
+
+      assert.throws(function(){ uses.serializeMap(mapWithObject) }, Error);
+      assert.throws(function(){ uses.serializeMap(mapWithArray) }, Error);
+      assert.throws(function(){ uses.serializeMap(mapWithUndefined) }, Error);
+    });
+  });
+
+  describe('#deserializeMap()', function() {
+    it('should produce the expected map', function() {
+      let expected = new Map();
+      expected.set('a', 1);
+      expected.set('b', 'b');
+      assert.deepEqual(
+        expected,
+        uses.deserializeMap('{a:1,b:"b"}')
+      );
+    });
+    it('should recurse through nested objects', function() {
+      let expected = new Map();
+      let nestedMap = new Map();
+      nestedMap.set('b', 'b');
+      expected.set('a', nestedMap);
+      assert.equal(
+        expected,
+        uses.serializeMap('{a:{b:"b"}}')
+      );
+    });
+    it('should reject invalid strings', function() {
+      assert.throws(function(){ uses.deserializeMap('{iamlazy') }, Error);
+    });
+  });
 });
