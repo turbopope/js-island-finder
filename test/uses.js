@@ -76,32 +76,68 @@ describe('uses', function() {
       map.set('a', 1);
       map.set('b', 'b');
       assert.equal(
-        '{a:1,b:"b"}',
+        '{"a":1,"b":"b"}',
         uses.serializeMap(map)
       );
     });
-    it('should recurse through nested objects', function() {
+    it('should recurse through nested maps', function() {
       let map = new Map();
       let nestedMap = new Map();
       nestedMap.set('b', 'b');
       map.set('a', nestedMap);
       assert.equal(
-        '{a:{b:"b"}}',
+        '{"a":{"b":"b"}}',
         uses.serializeMap(map)
       );
     });
-    it('should reject invalid keys', function() {
+    it('should recurse through nested objects', function() {
+      let map = new Map();
+      map.set('a', {b: 'b'});
+      assert.equal(
+        '{"a":{"b":"b"}}',
+        uses.serializeMap(map)
+      );
+    });
+    it('should reject objects as keys', function() {
       let mapWithObject = new Map();
       mapWithObject.set({}, 1);
+      assert.throws(function(){ uses.serializeMap(mapWithObject) }, Error);
+    });
+    it('should reject arrays as keys', function() {
       let mapWithArray = new Map();
       mapWithArray.set([], 1);
+      assert.throws(function(){ uses.serializeMap(mapWithArray) }, Error);
+    });
+    it('should reject undefined as key', function() {
       let mapWithUndefined = new Map();
       mapWithUndefined.set(undefined, 1);
-
-      assert.throws(function(){ uses.serializeMap(mapWithObject) }, Error);
-      assert.throws(function(){ uses.serializeMap(mapWithArray) }, Error);
       assert.throws(function(){ uses.serializeMap(mapWithUndefined) }, Error);
     });
+    it('should reject numerics as keys', function() {
+      let mapWithNumeric = new Map();
+      mapWithNumeric.set(1, 1);
+      assert.throws(function(){ uses.serializeMap(mapWithNumeric) }, Error);
+    });
+    // it('should reject objects as values', function() {
+    //   let mapWithObject = new Map();
+    //   mapWithObject.set('a', {});
+    //   assert.throws(function(){ uses.serializeMap(mapWithObject) }, Error);
+    // });
+    // it('should reject arrays as values', function() {
+    //   let mapWithArray = new Map();
+    //   mapWithArray.set('a', []);
+    //   assert.throws(function(){ uses.serializeMap(mapWithArray) }, Error);
+    // });
+    // it('should reject undefined as value', function() {
+    //   let mapWithUndefined = new Map();
+    //   mapWithUndefined.set('a', undefined);
+    //   assert.throws(function(){ uses.serializeMap(mapWithUndefined) }, Error);
+    // });
+    // it('should reject numerics as values', function() {
+    //   let mapWithNumeric = new Map();
+    //   mapWithUndefined.set('a', 1);
+    //   assert.throws(function(){ uses.serializeMap(mapWithNumeric) }, Error);
+    // });
   });
 
   describe('#deserializeMap()', function() {
