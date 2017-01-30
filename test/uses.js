@@ -147,7 +147,7 @@ describe('uses', function() {
       expected.set('b', 'b');
       assert.deepEqual(
         expected,
-        uses.deserializeMap('{a:1,b:"b"}')
+        uses.deserializeMap('{"a":1,"b":"b"}')
       );
     });
     it('should recurse through nested objects', function() {
@@ -155,9 +155,9 @@ describe('uses', function() {
       let nestedMap = new Map();
       nestedMap.set('b', 'b');
       expected.set('a', nestedMap);
-      assert.equal(
+      assert.deepEqual(
         expected,
-        uses.serializeMap('{a:{b:"b"}}')
+        uses.deserializeMap('{"a":{"b":"b"}}')
       );
     });
     it('should reject invalid strings', function() {
