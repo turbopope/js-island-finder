@@ -8,8 +8,10 @@ const APIUseWalker = require('./lib/APIUseWalker');
 const colors = require('colors');
 const crypto = require('crypto');
 const forEachJSFileRecursive = require('./lib/util').forEachJSFileRecursive;
+const listJSFilesRecursive = require('./lib/util').listJSFilesRecursive;
 const uses = require('./lib/uses');
 const Table = require('./lib/Table');
+const async = require('async');
 
 
 
@@ -42,14 +44,31 @@ function getAst(contents) {
 const repo = process.argv[2];
 const globalUses = new Map();
 
-forEachJSFileRecursive(repo, function(filename, contents) {
-  console.log(filename.green);
-  let ast = getAst(contents);
+// forEachJSFileRecursive(repo, function(filename, contents) {
+//   console.log(filename.green);
+//   let ast = getAst(contents);
+//
+//   const walker = new APIUseWalker(repo, filename);
+//   walker.handleNode(ast);
+//   walker.finalize();
+// });
 
-  const walker = new APIUseWalker(repo, filename);
+function extract(file, callback) {
+  console.log(file.green);
+  let ast = getAst(fs.readFileSync(file));
+  const walker = new APIUseWalker(repo, file);
   walker.handleNode(ast);
   walker.finalize();
-  uses.mergeUses(globalUses, walker._uses);
+  callback(null, walker._uses);
+}
+
+let filesToAnalyze = listJSFilesRecursive(repo);
+async.map(filesToAnalyze, extract, (err, results) => {
+  if (err)
+    console.error(err);
+  for (let result of results) {
+    uses.mergeUses(globalUses, result);
+  }
 });
 
 // console.dir(globalUses, { colors: true, depth: null });
