@@ -64,4 +64,5 @@ globalUses.forEach((useage, mName) => {
 const repoSplits = repo.split('/').reverse();
 const repoName = repoSplits[0] || repoSplits[1];
 const timecode = new Date().toISOString();
+fs.writeFileSync(`out/${repoName}_${timecode}.json`, uses.serializeMap(globalUses));
 fs.writeFileSync(`out/${repoName}_${timecode}.csv`, usesTable.toCSV());
