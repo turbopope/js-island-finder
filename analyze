@@ -42,6 +42,7 @@ function getAst(contents) {
 
 
 const repo = process.argv[2];
+if (!repo.endsWith('/')) { repo += '/' }
 const globalUses = new Map();
 
 // forEachJSFileRecursive(repo, function(filename, contents) {
@@ -62,7 +63,14 @@ function extract(file, callback) {
   callback(null, walker._uses);
 }
 
-let filesToAnalyze = listJSFilesRecursive(repo);
+let filesToAnalyze = [];
+if (process.argv.length <= 3) {
+  filesToAnalyze = filesToAnalyze.concat(listJSFilesRecursive(repo));
+} else {
+  for (let subpath of process.argv.slice(3)) {
+    filesToAnalyze = filesToAnalyze.concat(listJSFilesRecursive(repo + subpath));
+  }
+}
 async.map(filesToAnalyze, extract, (err, results) => {
   if (err)
     console.error(err);

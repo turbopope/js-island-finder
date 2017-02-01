@@ -6,8 +6,4 @@ Finds Islands of Knowledge in Node Git Repositories.
 
 `npm install` once.
 
-To analyze a repo: `./analyze /path/to/repo/` (the path must be absolute).
-
-Or: `npm run analyze -- /path/to/repo/`
-
-To parse a file with esprima: `./parse /path/to/file` or `npm run parse -- /path/to/file`
+To analyze a repo: `./analyze /path/to/repo/ [subpath...]` (the path must be absolute). Optionally pass a whitelist of subpaths in the directory that should be analyzed.
