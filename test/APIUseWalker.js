@@ -104,7 +104,7 @@ describe('APIUseWalker', function() {
       return Array.from(walker._uses.keys());
     }
 
-    it('should record let declarations', function() {
+    it('should record uses of moudles in CallExpressions', function() {
       const keys = getUsesKeys('./test/src/use-callexpression.js');
       assert.include(keys, 'fs');
     });
