@@ -104,6 +104,10 @@ describe('APIUseWalker', function() {
       return Array.from(walker._uses.keys());
     }
 
+    it('should record uses of modules in CallExpressions', function() {
+      const keys = getUsesKeys('./test/src/use-callexpression.js');
+      assert.include(keys, 'readFileSync');
+    });
     it('should record uses of moudles in MemberExpressions', function() {
       const keys = getUsesKeys('./test/src/use-memberexpression.js');
       assert.include(keys, 'fs');
