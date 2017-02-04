@@ -1,5 +1,7 @@
 const assert = require('chai').assert;
 const APIUseWalker = require('../lib/APIUseWalker');
+const getAst = require('../lib/util').getAst;
+const path = require('path');
 
 describe('APIUseWalker', function() {
   describe('#pruneUnrequired()', function() {
@@ -59,4 +61,30 @@ describe('APIUseWalker', function() {
       assert.notInclude(Array.from(walker._requires.keys()), 'c');
     });
   });
+
+  describe('::VariableDeclaratorWatcher', function() {
+
+    function getRequiresKeyVals(file) {
+      walker = new APIUseWalker(path.resolve(__dirname, '..'), file); // Goes up one dir
+      walker.handleNode(getAst(file));
+      return keyVals = Array.from(walker._requires.entries());
+    }
+
+    it('should record let declarations', function() {
+      const keyVals = getRequiresKeyVals('./test/src/require-let.js');
+      assert.deepEqual(keyVals, [['fs', 'fs']]);
+    });
+    it('should record const declarations', function() {
+      const keyVals = getRequiresKeyVals('./test/src/require-const.js');
+      assert.deepEqual(keyVals, [['fs', 'fs']]);
+    });
+    it('should record var declarations', function() {
+      const keyVals = getRequiresKeyVals('./test/src/require-var.js');
+      assert.deepEqual(keyVals, [['fs', 'fs']]);
+    });
+    it('should ignore exports', function() {
+      const keyVals = getRequiresKeyVals('./test/src/require-export.js');
+      assert.deepEqual(keyVals, [['readFileSync', 'fs']]);
+    });
+  })
 });
