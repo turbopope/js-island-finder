@@ -94,5 +94,19 @@ describe('APIUseWalker', function() {
       const keyVals = getRequiresKeyVals('./test/src/require-export.js');
       assert.deepEqual(keyVals, [['readFileSync', 'fs']]);
     });
-  })
+  });
+
+  describe('::IdentifierWatcher', function() {
+
+    function getUsesKeys(file) {
+      walker = new APIUseWalker(path.resolve(__dirname, '..'), file); // Goes up one dir
+      walker.handleNode(getAst(file));
+      return Array.from(walker._uses.keys());
+    }
+
+    it('should record let declarations', function() {
+      const keys = getUsesKeys('./test/src/use-callexpression.js');
+      assert.include(keys, 'fs');
+    });
+  });
 });
