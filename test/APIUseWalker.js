@@ -86,6 +86,10 @@ describe('APIUseWalker', function() {
       const keyVals = getRequiresKeyVals('./test/src/require-local.js');
       assert.deepEqual(keyVals, [['util', './lib/util']]);
     });
+    it('should record local requires', function() {
+      const keyVals = getRequiresKeyVals('./test/src/require-module.js');
+      assert.deepEqual(keyVals, [['chai', 'chai']]);
+    });
     it('should ignore exports', function() {
       const keyVals = getRequiresKeyVals('./test/src/require-export.js');
       assert.deepEqual(keyVals, [['readFileSync', 'fs']]);
