@@ -108,11 +108,11 @@ describe('APIUseWalker', function() {
       const keys = getUsesKeys('./test/src/use-callexpression.js');
       assert.include(keys, 'readFileSync');
     });
-    it('should record uses of moudles in MemberExpressions', function() {
+    it('should record uses of modules in MemberExpressions', function() {
       const keys = getUsesKeys('./test/src/use-memberexpression.js');
       assert.include(keys, 'fs');
     });
-    it('should record uses of moudles in NewExpressions', function() {
+    it('should record uses of modules in NewExpressions', function() {
       const keys = getUsesKeys('./test/src/use-newexpression.js');
       assert.include(keys, 'Promise');
     });
