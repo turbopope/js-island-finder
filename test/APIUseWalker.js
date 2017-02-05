@@ -120,5 +120,9 @@ describe('APIUseWalker', function() {
       const keys = getUsesKeys('./test/src/use-as-argument.js');
       assert.include(keys, 'fs');
     });
+    it('should record uses of modules as superclass', function() {
+      const keys = getUsesKeys('./test/src/use-superclass.js');
+      assert.include(keys, 'Promise');
+    });
   });
 });
