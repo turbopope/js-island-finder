@@ -1,0 +1,24 @@
+#!/usr/bin/node
+
+const fs = require('fs')
+const uses = require('./lib/uses')
+
+const raw = fs.readFileSync('out/npm_keywords.json')
+const rows = JSON.parse(raw)['rows']
+const counter = new Map()
+
+for (let row of rows) {
+  const keywords = row['value'];
+  for (let keyword of keywords) {
+    keyword = keyword.toLowerCase()
+    counter.set(keyword, (counter.get(keyword) | 0) + 1)
+  }
+}
+
+counter.forEach((value, key, map) => {
+  if (value === 1) {
+    map.delete(key)
+  }
+})
+
+console.log(uses.serializeMap(uses.sortUses(counter)))
