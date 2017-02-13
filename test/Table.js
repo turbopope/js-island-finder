@@ -40,6 +40,22 @@ describe('Table', function() {
     });
   });
 
+  describe('#ensureHasRow()', function() {
+    it('should set the date if new', function() {
+      table.set('r1', 'c', 1);
+      table.ensureHasRow('r2');
+      assert.equal(0, table.get('r2', 'c'));
+    });
+  });
+
+  describe('#ensureHasCol()', function() {
+    it('should set the date if new', function() {
+      table.set('r', 'c1', 1);
+      table.ensureHasCol('c2');
+      assert.equal(0, table.get('r', 'c2'));
+    });
+  });
+
   describe('#csv()', function() {
     it('should produce the expected CSV string (one date)', function() {
       table.set('r', 'c', 1);
