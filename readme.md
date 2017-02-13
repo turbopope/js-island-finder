@@ -40,7 +40,7 @@ Takes the CSV report `in` and maps each module to the globally most used keyword
 
 Useage: `./graph_author AUTHOR USEAGE_JSON...`
 
-Takes a list of the JSON outputs of the `analyze`-script (2nd parameter) and prints to STDOUT a CSV table that graphs the API useages of the specified author (1st parameter). For example (spaces inserted for legibility):
+Takes a list of the JSON outputs of the `analyze`-script (2nd parameter) and prints to STDOUT a CSV table that graphs the API useages of the specified **author** (1st parameter). For example (spaces inserted for legibility):
 
 ```
 > ./graph_author turbopope rev1.json rev2.json rev3.json
@@ -48,4 +48,21 @@ Takes a list of the JSON outputs of the `analyze`-script (2nd parameter) and pri
 rev1.json, 2 , 0     , 10  , 0
 rev2.json, 5 , 0     , 2   , 0
 rev3.json, 9 , 1     , 0   , 0
+```
+
+
+### graph_module
+
+Useage: `./graph_module MODULE USEAGE_JSON...`
+
+Like `graph_author`, but for a module instead of an author.
+
+Takes a list of the JSON outputs of the `analyze`-script (2nd parameter) and prints to STDOUT a CSV table that graphs the API useages of the specified **module** (1st parameter). For example (spaces inserted for legibility):
+
+```
+> ./graph_author crypto rev1.json rev2.json rev3.json
+         , john, jade, rose, dave
+rev1.json, 3   , 0   , 11  , 0
+rev2.json, 4   , 0   , 3   , 0
+rev3.json, 8   , 2   , 0   , 0
 ```
