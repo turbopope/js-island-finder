@@ -56,5 +56,22 @@ describe('Table', function() {
         table.toCSV()
       );
     });
+    it('should print the title in the first cell if given', function() {
+      table = new Table(0, "title")
+      table.set('r', 'c', 1);
+      assert.equal(
+        "title,c;\nr,1;\n",
+        table.toCSV()
+      );
+    });
+    it('should default to the given default value', function() {
+      table = new Table(2)
+      table.ensureHasRow('r');
+      table.ensureHasCol('c');
+      assert.equal(
+        ",c;\nr,2;\n",
+        table.toCSV()
+      );
+    });
   });
 });
