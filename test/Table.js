@@ -5,7 +5,7 @@ describe('Table', function() {
 
   let table;
   beforeEach(function() {
-    table = new Table(0);
+    table = new Table();
   })
 
   describe('#get()', function() {
@@ -44,7 +44,7 @@ describe('Table', function() {
     it('should produce the expected CSV string (one date)', function() {
       table.set('r', 'c', 1);
       assert.equal(
-        "???,c;\nr,1;\n",
+        ",c;\nr,1;\n",
         table.toCSV()
       );
     });
@@ -52,7 +52,7 @@ describe('Table', function() {
       table.set('r1', 'c1', 1);
       table.set('r2', 'c2', 2);
       assert.equal(
-        "???,c1,c2;\nr1,1,0;\nr2,0,2;\n",
+        ",c1,c2;\nr1,1,0;\nr2,0,2;\n",
         table.toCSV()
       );
     });
