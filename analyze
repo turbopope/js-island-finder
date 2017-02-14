@@ -42,7 +42,7 @@ function extract(file, callback) {
 }
 
 let filesToAnalyze = [];
-execSync(`git checkout ${treeish}`, { cwd: repo, encoding: 'utf-8' });
+execSync(`git checkout -q ${treeish}`, { cwd: repo, encoding: 'utf-8' });
 if (process.argv.length <= 5) {
   filesToAnalyze = filesToAnalyze.concat(listJSFilesRecursive(repo));
 } else {
@@ -73,4 +73,4 @@ const timecode = new Date().toISOString();
 const outFileName = sanitizeFilename(`${repoName}_${treeish}`);
 fs.writeFileSync(`${outDir}${outFileName}.json`, uses.serializeMap(globalUses));
 fs.writeFileSync(`${outDir}${outFileName}.csv`, usesTable.toCSV());
-execSync(`git checkout HEAD`, { cwd: repo, encoding: 'utf-8' });
+execSync(`git checkout -q HEAD`, { cwd: repo, encoding: 'utf-8' });
