@@ -68,7 +68,7 @@ rev3.json, 8   , 2   , 0   , 0
 ```
 
 
-### analyze_request_history
+### analyze_history
 
 Useage: `./analyze_request_history /path/to/repo/ [out-dir [n [subpath...]]]`
 
