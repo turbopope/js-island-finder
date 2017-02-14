@@ -12,7 +12,7 @@ const stepWidth = parseInt(process.argv[4] || '250');
 const whitelist = process.argv.length >= 5 ? process.argv.slice(5) : undefined;
 
 execSync(`git checkout -q master`, { cwd: repo, encoding: 'utf-8' });
-let allRevs = execSync(`git log --oneline --reverse --no-abbrev-commit`, { cwd: repo, encoding: 'utf-8' });
+let allRevs = execSync(`git log --oneline --no-abbrev-commit`, { cwd: repo, encoding: 'utf-8' });
 allRevs = allRevs.split("\n");
 allRevs = allRevs.slice(0, -1);
 allRevs = allRevs.map(rev => {
