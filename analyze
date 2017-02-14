@@ -19,7 +19,8 @@ const sanitizeFilename = require("sanitize-filename");
 
 const repo = process.argv[2];
 if (!repo.endsWith('/')) { repo += '/' }
-const treeish = process.argv[3]
+const outDir = process.argv[3] || 'out/'
+const treeish = process.argv[4] || 'HEAD'
 const globalUses = new Map();
 
 // forEachJSFileRecursive(repo, function(filename, contents) {
@@ -42,10 +43,10 @@ function extract(file, callback) {
 
 let filesToAnalyze = [];
 execSync(`git checkout ${treeish}`, { cwd: repo, encoding: 'utf-8' });
-if (process.argv.length <= 4) {
+if (process.argv.length <= 5) {
   filesToAnalyze = filesToAnalyze.concat(listJSFilesRecursive(repo));
 } else {
-  for (let subpath of process.argv.slice(4)) {
+  for (let subpath of process.argv.slice(5)) {
     filesToAnalyze = filesToAnalyze.concat(listJSFilesRecursive(repo + subpath));
   }
 }
@@ -70,6 +71,6 @@ const repoSplits = repo.split('/').reverse();
 const repoName = repoSplits[0] || repoSplits[1];
 const timecode = new Date().toISOString();
 const outFileName = sanitizeFilename(`${repoName}_${treeish}`);
-fs.writeFileSync(`out/${outFileName}.json`, uses.serializeMap(globalUses));
-fs.writeFileSync(`out/${outFileName}.csv`, usesTable.toCSV());
+fs.writeFileSync(`${outDir}${outFileName}.json`, uses.serializeMap(globalUses));
+fs.writeFileSync(`${outDir}${outFileName}.csv`, usesTable.toCSV());
 execSync(`git checkout HEAD`, { cwd: repo, encoding: 'utf-8' });
