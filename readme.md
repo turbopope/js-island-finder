@@ -6,7 +6,7 @@ Finds Islands of Knowledge in Node Git Repositories.
 
 `npm install` once.
 
-To analyze a repo: `./analyze /path/to/repo/ [out-dir [tree-ish [subpath...]]]` (the path must be absolute). Optionally pass an target output directory (defaults to `out/`). Optionally pass a [tree-ish](http://stackoverflow.com/a/18605496) (e.g. a commit-sha1) to specify which revision to analyze (defaults to `HEAD`). Optionally pass a whitelist of subpaths in the directory that should be analyzed. For now, if you want to specify a revision or subpaths, you must specify the previous commits (use the defaults if you are unsure).
+To analyze a repo: `./analyze /path/to/repo/ [out-dir [tree-ish [subpath...]]]` (the path must be absolute). Optionally pass an target output directory (defaults to `out/`). Optionally pass a [tree-ish](http://stackoverflow.com/a/18605496) (e.g. a commit-sha1) to specify which revision to analyze (defaults to `master`). Optionally pass a whitelist of subpaths in the directory that should be analyzed. For now, if you want to specify a revision or subpaths, you must specify the previous commits (use the defaults if you are unsure).
 
 
 ### Keywords
