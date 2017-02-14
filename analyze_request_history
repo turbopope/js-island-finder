@@ -1,12 +1,37 @@
-#!/bin/bash
+#!/usr/bin/node
 
-./analyze /home/mbrack/ma/npm-repos/request/ f009af231412fe8fee4ab5dd24d24781fd731fc3
-./analyze /home/mbrack/ma/npm-repos/request/ 1f337973b236374098e1d3d7658a5244331c8e25
-./analyze /home/mbrack/ma/npm-repos/request/ 9d055b48ab67f857b6c02eac3c540e701820eb5e
-./analyze /home/mbrack/ma/npm-repos/request/ 28b24a0d04d6bbf15abcdbf0db2d1be151bcb08f
-./analyze /home/mbrack/ma/npm-repos/request/ 697b827329beec832bfad22813514af1926cb931
-./analyze /home/mbrack/ma/npm-repos/request/ 407c1ada61afca4d4ba50155c6d9430754541df1
-./analyze /home/mbrack/ma/npm-repos/request/ 909b024619c9e47f615749661d610cccd8421d80
-./analyze /home/mbrack/ma/npm-repos/request/ 012d101385fac2dd1f973fe64f0dee329588115d
-./analyze /home/mbrack/ma/npm-repos/request/ cba588cec1e204d70f40f8bd11df0e27dc78ef0c
-./analyze /home/mbrack/ma/npm-repos/request/ 758f598de8d6024db3fa8ee7d0a1fc3e45c50f53
+const execSync = require('child_process').execSync;
+const leftPad = require('left-pad');
+const path = require('path');
+
+
+
+const repo = process.argv[2];
+const outDir = process.argv[3] || 'out/';
+const stepWidth = parseInt(process.argv[4] || '250');
+const whitelist = process.argv.length >= 5 ? process.argv.slice(5) : undefined;
+
+execSync(`git checkout -q master`, { cwd: repo, encoding: 'utf-8' });
+let allRevs = execSync(`git log --oneline --reverse --no-abbrev-commit`, { cwd: repo, encoding: 'utf-8' });
+allRevs = allRevs.split("\n");
+allRevs = allRevs.slice(0, -1);
+allRevs = allRevs.map(rev => {
+  const splitted = rev.split(' ');
+  return splitted[0];
+});
+
+const targetRevs = new Map();
+for (let i = 0; i < allRevs.length; i += stepWidth) {
+  targetRevs.set(i, allRevs[i]);
+}
+const latestI = allRevs.length - 1;
+targetRevs.set(latestI, allRevs[latestI]);
+
+console.log(`Processing ${targetRevs.size} of ${allRevs.length} revisions`)
+targetRevs.forEach((sha, i) => {
+  console.log(`${new Date().toISOString()}: Processing HEAD~${i} (${sha})`);
+  execSync(`mkdir -p ${outDir}`, { cwd: '.', encoding: 'utf-8' });
+  execSync(`./analyze ${repo} ${outDir} ${sha} ${whitelist.join(' ')}`, { cwd: '.', encoding: 'utf-8' });
+  execSync(`mv ${outDir}/${path.basename(repo)}_${sha}.json ${outDir}/${leftPad(i, 4, '0')}.json `, { cwd: '.', encoding: 'utf-8' });
+  execSync(`mv ${outDir}/${path.basename(repo)}_${sha}.csv ${outDir}/${leftPad(i, 4, '0')}.csv `, { cwd: '.', encoding: 'utf-8' });
+});

@@ -66,3 +66,10 @@ rev1.json, 3   , 0   , 11  , 0
 rev2.json, 4   , 0   , 3   , 0
 rev3.json, 8   , 2   , 0   , 0
 ```
+
+
+### analyze_request_history
+
+Useage: `./analyze_request_history /path/to/repo/ [out-dir [n [subpath...]]]`
+
+Analyze every `n`th revision of the given repo with `analyze` (defaults to `n=250`). `out-dir` and `subpath...` are the same arguments as for `analyze` and are passed through to it.
