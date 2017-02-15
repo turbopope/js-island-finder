@@ -2,75 +2,14 @@
 
 "use strict";
 
-const fs = require('fs');
-const esprima = require('esprima');
-const APIUseWalker = require('./lib/APIUseWalker');
-const colors = require('colors');
-const forEachJSFileRecursive = require('./lib/util').forEachJSFileRecursive;
-const listJSFilesRecursive = require('./lib/util').listJSFilesRecursive;
-const getAst = require('./lib/util').getAst;
-const uses = require('./lib/uses');
-const Table = require('./lib/Table');
-const async = require('async');
-const execSync = require('child_process').execSync;
-const sanitizeFilename = require("sanitize-filename");
+const analyze = require('./lib/analyze');
 
 
 
 let repo = process.argv[2];
 if (!repo.endsWith('/')) { repo += '/' }
-const outDir = process.argv[3] || 'out/'
-const treeish = process.argv[4] || 'master'
-const globalUses = new Map();
+const outDir = process.argv[3];
+const treeish = process.argv[4];
+const whitelist = process.argv.slice(5);
 
-// forEachJSFileRecursive(repo, function(filename, contents) {
-//   console.log(filename.green);
-//   let ast = getAst(contents);
-//
-//   const walker = new APIUseWalker(repo, filename);
-//   walker.handleNode(ast);
-//   walker.finalize();
-// });
-
-function extract(file, callback) {
-  console.log(file.green);
-  let ast = getAst(file);
-  const walker = new APIUseWalker(repo, file);
-  walker.handleNode(ast);
-  walker.finalize();
-  callback(null, walker._uses);
-}
-
-let filesToAnalyze = [];
-execSync(`git checkout -q ${treeish}`, { cwd: repo, encoding: 'utf-8' });
-if (process.argv.length <= 5) {
-  filesToAnalyze = filesToAnalyze.concat(listJSFilesRecursive(repo));
-} else {
-  for (let subpath of process.argv.slice(5)) {
-    filesToAnalyze = filesToAnalyze.concat(listJSFilesRecursive(repo + subpath));
-  }
-}
-async.map(filesToAnalyze, extract, (err, results) => {
-  if (err)
-    console.error(err);
-  for (let result of results) {
-    uses.mergeUses(globalUses, result);
-  }
-});
-
-// console.dir(globalUses, { colors: true, depth: null });
-let usesTable = new Table(0);
-globalUses.forEach((useage, mName) => {
-  console.log(mName);
-  uses.sortUses(useage).forEach((amount, author) => {
-    console.log('  ' + author.green + ': ' + amount);
-    usesTable.setOrAdd(author, mName, amount);
-  })
-});
-const repoSplits = repo.split('/').reverse();
-const repoName = repoSplits[0] || repoSplits[1];
-const timecode = new Date().toISOString();
-const outFileName = sanitizeFilename(`${repoName}_${treeish}`);
-fs.writeFileSync(`${outDir}${outFileName}.json`, uses.serializeMap(globalUses));
-fs.writeFileSync(`${outDir}${outFileName}.csv`, usesTable.toCSV());
-execSync(`git checkout -q master`, { cwd: repo, encoding: 'utf-8' });
+analyze(repo, whitelist, outDir, treeish);
