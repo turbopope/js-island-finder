@@ -105,8 +105,12 @@ describe('Table', function() {
       const table = Table.parse(csv);
       assert.equal('title', table._title);
     });
-    it('should not parse malformed CSV', function() {
+    it('should throw if a column has less cells than the header', function() {
       const csv = "title,c1,c2\nr1,11,12\nr2,21\n"
+      assert.throws(function(){ Table.parse(csv) }, Error);
+    });
+    it('should throw if a column has more cells than the header', function() {
+      const csv = "title,c1,c2\nr1,11,12\nr2,21,22,23\n"
       assert.throws(function(){ Table.parse(csv) }, Error);
     });
   });
