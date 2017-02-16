@@ -91,7 +91,7 @@ describe('Table', function() {
     });
   });
 
-  describe('#fromCSV()', function() {
+  describe('#parse()', function() {
     it('should parse CSV strings', function() {
       const csv = ",c1,c2\nr1,11,12\nr2,21,22\n"
       const table = Table.parse(csv);
