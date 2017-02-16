@@ -1,0 +1,17 @@
+#!/usr/bin/node
+
+const fs = require('fs');
+const Table = require('./lib/Table');
+
+
+
+const inFile = process.argv[2];
+let csv = fs.readFileSync(inFile, { encoding: "utf-8" });
+
+// Remove second line with module names
+csv = csv.split("\n");
+csv.splice(1, 1);
+csv = csv.join("\n");
+
+const table = Table.parse(csv, false);
+console.log(table.toCSV());
