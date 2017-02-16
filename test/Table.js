@@ -113,5 +113,9 @@ describe('Table', function() {
       const csv = "title,c1,c2\nr1,11,12\nr2,21,22,23\n"
       assert.throws(function(){ Table.parse(csv) }, Error);
     });
+    it('should throw if a cell contains anything else than a number', function() {
+      const csv = "title,c1,c2\nr1,ggg,12\nr2,21,22,23\n"
+      assert.throws(function(){ Table.parse(csv) }, Error);
+    });
   });
 });
