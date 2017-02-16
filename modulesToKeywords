@@ -13,7 +13,7 @@ const keywordStats = JSON.parse(fs.readFileSync('out/keywords_counted.json'));
 let readFirstRow = false;
 let firstRowCopy = null;
 
-const rrows = raw.split(";\n");
+const rrows = raw.split("\n");
 const [ffirst, ...rrest] = rrows;
 firstRowCopy = `${ffirst}`;
 
@@ -60,13 +60,13 @@ parse(raw, {}, (err, parsed) => {
     stringify(transformed, (err, stringified) => {
       if (err) throw err;
 
-      const rows = stringified.split(";\n");
+      const rows = stringified.split("\n");
       const [first, ...rest] = rows;
 
       let report = "";
-      report = report.concat(first + ";\n");
-      report = report.concat(firstRowCopy + ";\n");
-      report = report.concat(rest.join(";\n"));
+      report = report.concat(first + "\n");
+      report = report.concat(firstRowCopy + "\n");
+      report = report.concat(rest.join("\n"));
       // report = report.concat(";\n")
       fs.writeFileSync(process.argv[3], report);
       console.log(report);
