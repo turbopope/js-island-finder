@@ -15,7 +15,7 @@
   "https": "HTTP",
   "module": "MODULE",
   "net": "IO",
-  "os": "UTILITY",
+  "os": "UTIL",
   "path": "IO",
   "process": "PROCESS",
   "punycode": "IO",
@@ -28,7 +28,7 @@
   "tls": "SSL",
   "tty": "IO",
   "url": "IO",
-  "util": "UTILITY",
+  "util": "UTIL",
   "v8": "CORE",
   "vm": "CORE",
   "zlib": "IO"
