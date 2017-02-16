@@ -83,7 +83,7 @@ parse(raw, {}, (err, parsed) => {
       report = report.concat(rest.join("\n"));
       // report = report.concat(";\n")
       fs.writeFileSync(process.argv[3], report);
-      console.log(report);
+      // console.log(report);
     });
   });
 });
