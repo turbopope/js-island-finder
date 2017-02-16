@@ -7,6 +7,7 @@ const request = require('sync-request');
 const fs = require('fs');
 const _ = require('lodash');
 const globals = require('./lib/globals');
+const builtin = require('./lib/builtin-modules');
 
 const file = process.argv[2];
 const raw = fs.readFileSync(file, { encoding: "utf-8" });
@@ -32,8 +33,13 @@ parse(raw, {}, (err, parsed) => {
         let keyword = undefined;
 
         if (Object.keys(globals).includes(moduleName)) {
+          console.log(`${moduleName} is a global object`)
           keyword = '$' + globals[moduleName];
+        } else if (Object.keys(builtin).includes(moduleName.toLocaleLowerCase())) {
+          console.log(`${moduleName} is a builtin object`)
+          keyword = '@' + builtin[moduleName];
         } else {
+          console.log(`${moduleName} is an external module`)
           const baseModuleName = moduleName.split("/")[0];
           const url = `http://localhost:5984/npm-skim/${baseModuleName}`;
           let mod = null;
