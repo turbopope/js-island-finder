@@ -90,4 +90,24 @@ describe('Table', function() {
       );
     });
   });
+
+  describe('#fromCSV()', function() {
+    it('should parse CSV strings', function() {
+      const csv = ",c1,c2\nr1,11,12\nr2,21,22\n"
+      const table = Table.parse(csv);
+      assert.equal(11, table.get('r1', 'c1'));
+      assert.equal(12, table.get('r1', 'c2'));
+      assert.equal(21, table.get('r2', 'c1'));
+      assert.equal(12, table.get('r2', 'c2'));
+    });
+    it('should parse the title', function() {
+      const csv = "title,c1,c2\nr1,11,12\nr2,21,22\n"
+      const table = Table.parse(csv);
+      assert.equal('title', table._title);
+    });
+    it('should not parse malformed CSV', function() {
+      const csv = "title,c1,c2\nr1,11,12\nr2,21\n"
+      assert.throws(function(){ Table.parse(csv) }, Error);
+    });
+  });
 });
