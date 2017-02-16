@@ -34,10 +34,12 @@ parse(raw, {}, (err, parsed) => {
 
         if (Object.keys(globals).includes(moduleName)) {
           console.log(`${moduleName} is a global object`)
-          keyword = '$' + globals[moduleName];
+          // keyword = '$' + globals[moduleName];
+          keyword = globals[moduleName];
         } else if (Object.keys(builtin).includes(moduleName.toLocaleLowerCase())) {
           console.log(`${moduleName} is a builtin object`)
-          keyword = '@' + builtin[moduleName];
+          // keyword = '@' + builtin[moduleName];
+          keyword = builtin[moduleName];
         } else {
           console.log(`${moduleName} is an external module`)
           const baseModuleName = moduleName.split("/")[0];
