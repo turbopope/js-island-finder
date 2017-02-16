@@ -6,6 +6,7 @@ const stringify = require('csv-stringify');
 const request = require('sync-request');
 const fs = require('fs');
 const _ = require('lodash');
+const globals = require('./lib/globals');
 
 const file = process.argv[2];
 const raw = fs.readFileSync(file, { encoding: "utf-8" });
@@ -28,25 +29,30 @@ parse(raw, {}, (err, parsed) => {
 
       for (let i = 1; i < row.length; i++) {
         const moduleName = row[i];
-        const baseModuleName = moduleName.split("/")[0];
-        const url = `http://localhost:5984/npm-skim/${baseModuleName}`;
-        let mod = null;
-        try {
-          mod = JSON.parse(request('GET', url).getBody());
-        } catch (err) {
-          continue;
-        }
-        const keywords = mod['keywords'] || [];
-        const keywordsWithCounts = _.pick(keywordStats, keywords);
-        let max = Number.NEGATIVE_INFINITY;
-        // console.log(keywordsWithCounts);
         let keyword = undefined;
-        for (let prop in keywordsWithCounts) {
-          const val = keywordsWithCounts[prop];
-          if (val > max) {
-            // console.log(`testing ${prop} => ${val}`)
-            max = val;
-            keyword = prop;
+
+        if (Object.keys(globals).includes(moduleName)) {
+          keyword = '$' + globals[moduleName];
+        } else {
+          const baseModuleName = moduleName.split("/")[0];
+          const url = `http://localhost:5984/npm-skim/${baseModuleName}`;
+          let mod = null;
+          try {
+            mod = JSON.parse(request('GET', url).getBody());
+          } catch (err) {
+            continue;
+          }
+          const keywords = mod['keywords'] || [];
+          const keywordsWithCounts = _.pick(keywordStats, keywords);
+          let max = Number.NEGATIVE_INFINITY;
+          // console.log(keywordsWithCounts);
+          for (let prop in keywordsWithCounts) {
+            const val = keywordsWithCounts[prop];
+            if (val > max) {
+              // console.log(`testing ${prop} => ${val}`)
+              max = val;
+              keyword = prop;
+            }
           }
         }
         // console.log(`max is ${keyword}`)
