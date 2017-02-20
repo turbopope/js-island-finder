@@ -119,15 +119,13 @@ describe('Table', function() {
     });
   });
 
-  describe('#sortRowsDescending()', function() {
+  describe('#rowsDescending()', function() {
     it('should sort simple tables in descending order', function() {
       table.set('r1', 'c', 1);
       table.set('r2', 'c', 3);
       table.set('r3', 'c', 2);
-      const summarizeRow = row => { row.reduce((acc, val) => { return acc + val }, 0) };
-      table.sortRowsDescending(summarizeRow);
-      const keys = Array.from(table._rows.keys());
-      assert.equal(['r2', 'r3', 'r1'], keys);
+      const summarizeRow = row => { return row.reduce((acc, val) => acc + val, 0); }
+      assert.deepEqual(['r2', 'r3', 'r1'], table.rowsDescending(summarizeRow));
     });
     it('should sort complex tables in descending order', function() {
       table.set('r1', 'c1', 1);
@@ -139,10 +137,26 @@ describe('Table', function() {
       table.set('r3', 'c1', 2);
       table.set('r3', 'c2', 2);
       table.set('r3', 'c3', 2);
-      const summarizeRow = row => { row.reduce((acc, val) => { return acc + val }, 0) };
-      table.sortRowsDescending(summarizeRow);
-      const keys = Array.from(table._rows.keys());
-      assert.equal(['r2', 'r3', 'r1'], keys);
+      const summarizeRow = row => { return row.reduce((acc, val) => acc + val, 0); }
+      assert.deepEqual(['r2', 'r3', 'r1'], table.rowsDescending(summarizeRow));
+    });
+  });
+
+  describe('#getCol()', function() {
+    it('should return the requested column', function() {
+      table.set('r1', 'c', 1);
+      table.set('r2', 'c', 2);
+      table.set('r3', 'c', 3);
+      assert.deepEqual([1, 2, 3], table.getCol('c'));
+    });
+  });
+
+  describe('#getRow()', function() {
+    it('should return the requested row', function() {
+      table.set('r', 'c1', 1);
+      table.set('r', 'c2', 2);
+      table.set('r', 'c3', 3);
+      assert.deepEqual([1, 2, 3], table.getRow('r'));
     });
   });
 });
