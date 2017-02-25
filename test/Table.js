@@ -119,6 +119,17 @@ describe('Table', function() {
     });
   });
 
+  describe('#parseJSON()', function() {
+    it('should parse JSON strings', function() {
+      const csv = '[{"r": "r1","c1":11,"c2":12},{"r":"r2","c1":21,"c2":22}]';
+      const table = Table.parseJSON(csv, 'r');
+      assert.equal(11, table.get('r1', 'c1'));
+      assert.equal(12, table.get('r1', 'c2'));
+      assert.equal(21, table.get('r2', 'c1'));
+      assert.equal(22, table.get('r2', 'c2'));
+    });
+  });
+
   describe('#rowsDescending()', function() {
     it('should sort simple tables in descending order', function() {
       table.set('r1', 'c', 1);
