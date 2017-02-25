@@ -8,6 +8,8 @@ Finds Islands of Knowledge in Node Git Repositories.
 
 To analyze a repo: `./analyze /path/to/repo/ [out-dir [tree-ish [subpath...]]]` (the path must be absolute). Optionally pass an target output directory (defaults to `out/`). Optionally pass a [tree-ish](http://stackoverflow.com/a/18605496) (e.g. a commit-sha1) to specify which revision to analyze (defaults to `master`). Optionally pass a whitelist of subpaths in the directory that should be analyzed. For now, if you want to specify a revision or subpaths, you must specify the previous commits (use the defaults if you are unsure).
 
+The result is basically a map of the combination of developer and module to the number of times that developer used that api. It is output as both a CSV table and a JSON file. The CSV table can than further be processed by the `modulesToKeywords`-script prepend the most-used keyword to each module in another CSV table. That table can than be processed by the `condense`-script, which deletes the module names and combines the useage-counts of all modules with the same keyword.
+
 
 ### Keywords
 
