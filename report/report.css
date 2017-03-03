@@ -17,3 +17,7 @@ td.report-row-header {
 .report-table td, .report-table th {
   padding: 2px;
 }
+
+body {
+  padding: 8px;
+}
