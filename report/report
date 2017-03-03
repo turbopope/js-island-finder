@@ -2,7 +2,7 @@
 
 const pug = require('pug');
 const fs = require('fs');
-const Table = require('./lib/Table');
+const Table = require('../lib/Table');
 
 const csv = fs.readFileSync(process.argv[2], { encoding: "utf-8" });
 const table = Table.parse(csv);
@@ -35,4 +35,4 @@ const reportData = {
   sum: sum
 }
 
-console.log(pug.renderFile('report.pug', reportData));
+console.log(pug.renderFile(__dirname + '/report.pug', reportData));
