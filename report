@@ -5,11 +5,30 @@ const fs = require('fs');
 const Table = require('./lib/Table');
 
 const csv = fs.readFileSync(process.argv[2], { encoding: "utf-8" });
+const table = Table.parse(csv);
+
+const MODULE_THRESHOLD = 25;
+const AUTHOR_THRESHOLD = 0;
+
+function sum(ary) {
+  return ary.reduce((a, b) => a + b, 0);
+}
+
+for (let row of table._rows) {
+  if (sum(table.getRow(row)) < AUTHOR_THRESHOLD) {
+    table.removeRow(row);
+  }
+}
+for (let col of table._cols) {
+  if (sum(table.getCol(col)) < MODULE_THRESHOLD) {
+    table.removeCol(col);
+  }
+}
 
 const reportData = {
   title: process.argv[2],
   short_title: 'sails',
-  table: Table.parse(csv)
+  table: table
 }
 
 console.log(pug.renderFile('report.pug', reportData));
