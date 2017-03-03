@@ -1,0 +1,19 @@
+.report-table {
+  font-size: 9px;
+}
+
+td.report-row-header, .report-table th {
+  background-color: lightgrey;
+}
+
+td.report-row-header {
+  white-space: nowrap;
+}
+
+.report-table th {
+  border-bottom: 1px solid #cbcbcb;
+}
+
+.report-table td, .report-table th {
+  padding: 2px;
+}
