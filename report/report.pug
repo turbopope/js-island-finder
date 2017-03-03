@@ -9,20 +9,5 @@ html(lang="en")
     script(src="../report.js")
   body
     h1=title
-
-    h2="Domains"
-    p="The table below shows how many times a developer (rows) has used an API from a domain (columns). Hover over the domain name to see which modules (that were used in the project) belong to the domain."
-    table.pure-table.pure-table-bordered.report-table
-      thead
-        th=short_title
-        th
-          em="total"
-        - for (let col of table._cols)
-          th(data-balloon=(remap[col] || [col]).join(', '), data-balloon-pos="down")=col
-      tbody
-        - for (let row of table._rows)
-          tr
-          td.report-row-header=row
-          td=sum(table.getRow(row))
-          - for (let col of table._cols)
-            td.report-cell=table.get(row, col)
+    p=`This is a report for the ${short_title} project. The sections below can be used to identify Islands Of Knowledge`
+    include report-domains
