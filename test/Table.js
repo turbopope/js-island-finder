@@ -13,8 +13,14 @@ describe('Table', function() {
       table.set('r', 'c', 1);
       assert.equal(1, table.get('r', 'c'));
     });
-    it('should get the default if the date is not found', function() {
-      assert.equal(0, table.get('r', 'c'));
+    it('should get the default if the cell is empty', function() {
+      table.set('r1', 'c1', 11);
+      table.set('r1', 'c2', 12);
+      table.set('r2', 'c1', 21);
+      assert.equal(0, table.get('r2', 'c2'));
+    });
+    it('should get undefined if the cell does not exist', function() {
+      assert.equal(undefined, table.get('r', 'c'));
     });
   });
 
@@ -197,13 +203,13 @@ describe('Table', function() {
   });
 
   describe('#remove()', function() {
-    it('should remove the requested cell', function() {
+    it('should return the default value after removing the requested cell', function() {
       table.set('r1', 'c1', 11);
       table.set('r1', 'c2', 12);
       table.set('r2', 'c1', 21);
       table.set('r2', 'c2', 22);
       table.remove('r1', 'c1');
-      assert.isUndefined(table.get('r1', 'c1'));
+      assert.equal(0, table.get('r1', 'c1'));
     });
     it('should preserve other cells', function() {
       table.set('r1', 'c1', 11);
@@ -226,6 +232,20 @@ describe('Table', function() {
       table.set('r3', 'c3', 33);
       table.remove('r2', 'c2');
       assert.notInclude(Array.from(table._rows), 'r2');
+    });
+    it('should revert to undefined if the cell was the last cell in that col', function() {
+      table.set('r1', 'c1', 11);
+      table.set('r1', 'c2', 22);
+      table.set('r2', 'c1', 33);
+      table.remove('r1', 'c2');
+      assert.isUndefined(table.get('r1', 'c2'));
+    });
+    it('should revert to undefined if the cell was the last cell in that row', function() {
+      table.set('r1', 'c1', 11);
+      table.set('r1', 'c2', 22);
+      table.set('r2', 'c1', 33);
+      table.remove('r2', 'c1');
+      assert.isUndefined(table.get('r2', 'c1'));
     });
   });
 
