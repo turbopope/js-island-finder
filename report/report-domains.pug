@@ -1,5 +1,19 @@
 h2="Domains"
-p="The table below shows how many times a developer (rows) has used an API from a domain (columns). Hover over the domain name to see which modules (that were used in the project) belong to the domain."
+p="The table below shows how many times a developer (rows) has used an API from a domain (columns). Hover over the domain name to see which modules (that were used in the project) belong to the domain. The cell's are colorized like a heatmap, respective to the fraction of the number of API useages by a developer in a domain."
+table.pure-table.pure-table-bordered.report-table
+  tbody
+    tr
+      td.report-cell.report-heat-0="<10%"
+      td.report-cell.report-heat-1="10% - 20%"
+      td.report-cell.report-heat-2="20% - 30%"
+      td.report-cell.report-heat-3="30% - 40%"
+      td.report-cell.report-heat-4="40% - 50%"
+      td.report-cell.report-heat-5="50% - 60%"
+      td.report-cell.report-heat-6="60% - 70%"
+      td.report-cell.report-heat-7="70% - 80%"
+      td.report-cell.report-heat-8="80% - 90%"
+      td.report-cell.report-heat-9="90% - 100%"
+br
 table.pure-table.pure-table-bordered.report-table
   thead
     th=short_title
