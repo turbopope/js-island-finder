@@ -196,6 +196,39 @@ describe('Table', function() {
     });
   });
 
+  describe('#remove()', function() {
+    it('should remove the requested cell', function() {
+      table.set('r1', 'c1', 11);
+      table.set('r1', 'c2', 12);
+      table.set('r2', 'c1', 21);
+      table.set('r2', 'c2', 22);
+      table.remove('r1', 'c1');
+      assert.isUndefined(table.get('r1', 'c1'));
+    });
+    it('should preserve other cells', function() {
+      table.set('r1', 'c1', 11);
+      table.set('r2', 'c2', 22);
+      table.set('r3', 'c3', 33);
+      table.remove('r2', 'c2');
+      assert.equal(11, table.get('r1', 'c1'));
+      assert.equal(33, table.get('r3', 'c3'));
+    });
+    it('should remove the col key if it was the last cell in that col', function() {
+      table.set('r1', 'c1', 11);
+      table.set('r2', 'c2', 22);
+      table.set('r3', 'c3', 33);
+      table.remove('r2', 'c2');
+      assert.notInclude(Array.from(table._cols), 'c2');
+    });
+    it('should remove the row key if it was the last cell in that row', function() {
+      table.set('r1', 'c1', 11);
+      table.set('r2', 'c2', 22);
+      table.set('r3', 'c3', 33);
+      table.remove('r2', 'c2');
+      assert.notInclude(Array.from(table._rows), 'r2');
+    });
+  });
+
   describe('#removeCol()', function() {
     it('should remove the requested column', function() {
       table.set('r1', 'c', 1);
