@@ -11,11 +11,14 @@ html(lang="en")
     table.pure-table.pure-table-bordered.report-table
       thead
         th=short_title
+        th
+          em="total"
         - for (let col of table._cols)
           th(data-balloon=(remap[col] || [col]).join(', '), data-balloon-pos="down")=col
       tbody
         - for (let row of table._rows)
           tr
           td.report-row-header=row
+          td=sum(table.getRow(row))
           - for (let col of table._cols)
             td.report-cell=table.get(row, col)

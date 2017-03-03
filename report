@@ -31,7 +31,8 @@ const reportData = {
   title: process.argv[2],
   short_title: 'sails',
   table: table,
-  remap: remap
+  remap: remap,
+  sum: sum
 }
 
 console.log(pug.renderFile('report.pug', reportData));
