@@ -6,7 +6,7 @@ table.pure-table.pure-table-bordered.report-table
     th
       em="total"
     - for (let col of table._cols)
-      th(data-balloon=(remap[col] || [col]).join(', '), data-balloon-pos="down")=col
+      th(data-balloon=(remap[col] || [col]).join(', '), data-balloon-pos="up")=col
   tbody
     tr
       td.report-row-header
