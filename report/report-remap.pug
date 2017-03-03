@@ -1,0 +1,11 @@
+h2="Remap"
+p="The table below shows which modules and global objects the domains comprise."
+table.pure-table.pure-table-bordered
+  thead
+    th="Domain"
+    th="Modules/Global Objects"
+  tbody.report-table
+    - for (let domain in remap)
+      tr
+        td=domain
+        td=remap[domain].join(', ')
