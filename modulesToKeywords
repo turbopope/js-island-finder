@@ -8,6 +8,7 @@ const fs = require('fs');
 const _ = require('lodash');
 const globals = require('./lib/globals');
 const builtin = require('./lib/builtin-modules');
+const uses = require('./lib/uses');
 
 const file = process.argv[2];
 const raw = fs.readFileSync(file, { encoding: "utf-8" });
@@ -18,6 +19,8 @@ let firstRowCopy = null;
 const rrows = raw.split("\n");
 const [ffirst, ...rrest] = rrows;
 firstRowCopy = `${ffirst}`;
+
+const remap = new Map();
 
 parse(raw, {}, (err, parsed) => {
   if (err) throw err;
@@ -64,6 +67,14 @@ parse(raw, {}, (err, parsed) => {
           }
         }
         // console.log(`max is ${keyword}`)
+
+        if (keyword) {
+          if (!remap.has(keyword.toUpperCase())) remap.set(keyword.toUpperCase(), []);
+          const entry = remap.get(keyword.toUpperCase());
+          entry.push(moduleName);
+          remap.set(keyword.toUpperCase(), entry);
+        }
+
         row[i] = keyword ? keyword.toUpperCase() : moduleName;
       }
       readFirstRow = true;
@@ -82,7 +93,8 @@ parse(raw, {}, (err, parsed) => {
       report = report.concat(firstRowCopy + "\n");
       report = report.concat(rest.join("\n"));
       // report = report.concat(";\n")
-      fs.writeFileSync(process.argv[3], report);
+      fs.writeFileSync(process.argv[3] + '.csv', report);
+      fs.writeFileSync(process.argv[3] + '_remap.json', uses.serializeMap(remap));
       // console.log(report);
     });
   });

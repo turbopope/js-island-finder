@@ -7,6 +7,8 @@ const Table = require('./lib/Table');
 const csv = fs.readFileSync(process.argv[2], { encoding: "utf-8" });
 const table = Table.parse(csv);
 
+const remap = JSON.parse(fs.readFileSync(process.argv[3], { encoding: "utf-8" }));
+
 const MODULE_THRESHOLD = 25;
 const AUTHOR_THRESHOLD = 0;
 
@@ -28,7 +30,8 @@ for (let col of table._cols) {
 const reportData = {
   title: process.argv[2],
   short_title: 'sails',
-  table: table
+  table: table,
+  remap: remap
 }
 
 console.log(pug.renderFile('report.pug', reportData));
