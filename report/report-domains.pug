@@ -19,21 +19,21 @@ table.pure-table.pure-table-bordered.report-table
     th=short_title
     th
       em="total"
-    - for (let col of table._cols)
+    - for (let col of domains._cols)
       th(data-balloon=(remap[col] || [col]).join(', '), data-balloon-pos="up")=col
   tbody
     tr
       td.report-row-header
         em="total"
-      td=sum(Array.from(table._rows.keys()).map(row => sum(table.getRow(row))))
-      - for (let col of table._cols)
-        td.report-cell=sum(table.getCol(col))
+      td=sum(Array.from(domains._rows.keys()).map(row => sum(domains.getRow(row))))
+      - for (let col of domains._cols)
+        td.report-cell=sum(domains.getCol(col))
 
-    - for (let row of table._rows)
+    - for (let row of domains._rows)
       tr
       td.report-row-header=row
-      td=sum(table.getRow(row))
-      - for (let col of table._cols)
+      td=sum(domains.getRow(row))
+      - for (let col of domains._cols)
         td(
           class=`report-cell report-heat-${heatmap.get(row, col).heat}`
         )
@@ -41,4 +41,4 @@ table.pure-table.pure-table-bordered.report-table
             data-balloon=heatmap.get(row, col).percentage
             data-balloon-pos="right"
             style="float:left; width:100%; min-width:100%;"
-          )=table.get(row, col)
+          )=domains.get(row, col)

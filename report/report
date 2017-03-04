@@ -3,11 +3,19 @@
 const pug = require('pug');
 const fs = require('fs');
 const Table = require('../lib/Table');
+const path = require('path');
 
-const csv = fs.readFileSync(process.argv[2], { encoding: "utf-8" });
-const table = Table.parse(csv);
+let dataDir = process.argv[2];
+if (!dataDir.endsWith(path.sep)) dataDir += path.sep;
+const domainsFile = `${process.cwd()}/${dataDir}domains.csv`;
+const modulesFile = `${process.cwd()}/${dataDir}modules.csv`;
+const remapFile   = `${process.cwd()}/${dataDir}remap.json`;
 
-const remap = JSON.parse(fs.readFileSync(process.argv[3], { encoding: "utf-8" }));
+const repoName = dataDir.split(path.sep).slice(-2, -1);
+
+const domains = Table.parse(fs.readFileSync(domainsFile, { encoding: "utf-8" }));
+const modules = Table.parse(fs.readFileSync(modulesFile, { encoding: "utf-8" }));
+const remap   = JSON.parse (fs.readFileSync(remapFile,   { encoding: "utf-8" }));
 
 const MODULE_THRESHOLD = 25;
 const AUTHOR_THRESHOLD = 0;
@@ -16,22 +24,22 @@ function sum(ary) {
   return ary.reduce((a, b) => a + b, 0);
 }
 
-for (let row of table._rows) {
-  if (sum(table.getRow(row)) < AUTHOR_THRESHOLD) {
-    table.removeRow(row);
+for (let row of domains._rows) {
+  if (sum(domains.getRow(row)) < AUTHOR_THRESHOLD) {
+    domains.removeRow(row);
   }
 }
-for (let col of table._cols) {
-  if (sum(table.getCol(col)) < MODULE_THRESHOLD) {
-    table.removeCol(col);
+for (let col of domains._cols) {
+  if (sum(domains.getCol(col)) < MODULE_THRESHOLD) {
+    domains.removeCol(col);
   }
 }
 
 const heatmap = new Table();
-for (let col of table._cols) {
-  let colSum = sum(table.getCol(col));
-  for (let row of table._rows) {
-    let fraction = table.get(row, col) / colSum;
+for (let col of domains._cols) {
+  let colSum = sum(domains.getCol(col));
+  for (let row of domains._rows) {
+    let fraction = domains.get(row, col) / colSum;
     let heat = Math.floor(fraction * 9);
     let percentage = (fraction * 100).toFixed(2) + '%';
     heatmap.set(row, col, {heat, percentage});
@@ -39,11 +47,12 @@ for (let col of table._cols) {
 }
 
 const reportData = {
-  title: process.argv[2],
-  short_title: 'sails',
-  table: table,
-  heatmap: heatmap,
-  remap: remap,
+  title: repoName,
+  short_title: repoName,
+  domains,
+  remap,
+  modules,
+  heatmap,
   sum: sum
 }
 
