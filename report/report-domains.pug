@@ -1,9 +1,9 @@
 h2="Domains"
-p="The table below shows how many times a developer (rows) has used an API from a domain (columns). Hover over the domain name to see which modules (that were used in the project) belong to the domain. The cell's are colorized like a heatmap, respective to the fraction of the number of API useages by a developer in a domain."
+p="The table below shows how many times a developer (rows) has used an API from a domain (columns). Hover over the domain name to see which modules (that were used in the project) belong to the domain. The cell's are colorized like a heatmap, respective to the fraction of the number of API useages by a developer in a domain. Hover over the cells to reveal the percentage."
 table.pure-table.pure-table-bordered.report-table
   tbody
     tr
-      td.report-cell.report-heat-0="<10%"
+      td.report-cell.report-heat-0="0% - 10%"
       td.report-cell.report-heat-1="10% - 20%"
       td.report-cell.report-heat-2="20% - 30%"
       td.report-cell.report-heat-3="30% - 40%"
@@ -34,4 +34,11 @@ table.pure-table.pure-table-bordered.report-table
       td.report-row-header=row
       td=sum(table.getRow(row))
       - for (let col of table._cols)
-        td(class=`report-cell report-heat-${heatmap.get(row, col)}`)=table.get(row, col)
+        td(
+          class=`report-cell report-heat-${heatmap.get(row, col).heat}`
+        )
+          span(
+            data-balloon=heatmap.get(row, col).percentage
+            data-balloon-pos="right"
+            style="float:left; width:100%; min-width:100%;"
+          )=table.get(row, col)

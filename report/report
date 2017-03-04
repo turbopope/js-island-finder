@@ -31,8 +31,10 @@ const heatmap = new Table();
 for (let col of table._cols) {
   let colSum = sum(table.getCol(col));
   for (let row of table._rows) {
-    let heat = Math.floor(table.get(row, col) / colSum * 9);
-    heatmap.set(row, col, heat);
+    let fraction = table.get(row, col) / colSum;
+    let heat = Math.floor(fraction * 9);
+    let percentage = (fraction * 100).toFixed(2) + '%';
+    heatmap.set(row, col, {heat, percentage});
   }
 }
 
