@@ -20,7 +20,10 @@ table.pure-table.pure-table-bordered.report-table
     th
       em="total"
     - for (let col of domains._cols)
-      th(data-balloon=(remap[col] || [col]).join(', '), data-balloon-pos="up")=col
+      th(data-balloon=(remap[col] || [col]).join(', '), data-balloon-pos="up")
+        a(href=`javascript:toggleModules('${col}')`)=col
+      - for (let mod of remap[col] || [])
+        th(class=`report-cell-module report-cell-dom-${col} hidden`)=mod
   tbody
     tr
       td.report-row-header
@@ -28,6 +31,8 @@ table.pure-table.pure-table-bordered.report-table
       td=sum(Array.from(domains._rows.keys()).map(row => sum(domains.getRow(row))))
       - for (let col of domains._cols)
         td.report-cell=sum(domains.getCol(col))
+        - for (let mod of remap[col] || [])
+          td(class=`report-cell-module report-cell-dom-${col} hidden`)
 
     - for (let row of domains._rows)
       tr
@@ -42,3 +47,5 @@ table.pure-table.pure-table-bordered.report-table
             data-balloon-pos="right"
             style="float:left; width:100%; min-width:100%;"
           )=domains.get(row, col)
+        - for (let mod of remap[col] || [])
+          td(class=`report-cell-module report-cell-dom-${col} hidden`)=modules.get(row, mod)
