@@ -7,15 +7,17 @@ const path = require('path');
 
 let dataDir = process.argv[2];
 if (!dataDir.endsWith(path.sep)) dataDir += path.sep;
-const domainsFile = `${process.cwd()}/${dataDir}domains.csv`;
-const modulesFile = `${process.cwd()}/${dataDir}modules.csv`;
-const remapFile   = `${process.cwd()}/${dataDir}remap.json`;
+const domainsFile           = `${process.cwd()}/${dataDir}domains.csv`;
+const modulesFile           = `${process.cwd()}/${dataDir}modules.csv`;
+const remapFile             = `${process.cwd()}/${dataDir}remap.json`;
+const modulesToKeywordsFile = `${process.cwd()}/${dataDir}modulesToKeywords.json`;
 
 const repoName = dataDir.split(path.sep).slice(-2, -1);
 
-const domains = Table.parse(fs.readFileSync(domainsFile, { encoding: "utf-8" }));
-const modules = Table.parse(fs.readFileSync(modulesFile, { encoding: "utf-8" }));
-const remap   = JSON.parse (fs.readFileSync(remapFile,   { encoding: "utf-8" }));
+const domains           = Table.parse(fs.readFileSync(domainsFile,           { encoding: "utf-8" }));
+const modules           = Table.parse(fs.readFileSync(modulesFile,           { encoding: "utf-8" }));
+const remap             = JSON.parse (fs.readFileSync(remapFile,             { encoding: "utf-8" }));
+const modulesToKeywords = JSON.parse (fs.readFileSync(modulesToKeywordsFile, { encoding: "utf-8" }));
 
 const MODULE_THRESHOLD = 25;
 const AUTHOR_THRESHOLD = 0;
@@ -53,7 +55,10 @@ const reportData = {
   remap,
   modules,
   heatmap,
+  modulesToKeywords,
   sum: sum
 }
+
+console.error(modulesToKeywords)
 
 console.log(pug.renderFile(__dirname + '/report.pug', reportData));

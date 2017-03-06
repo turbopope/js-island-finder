@@ -8,4 +8,9 @@ table.pure-table.pure-table-bordered
     - for (let domain in remap)
       tr
         td=domain
-        td=remap[domain].join(', ')
+        td
+          -for (let mod of remap[domain])
+            span(
+              data-balloon=JSON.stringify(modulesToKeywords[mod] || {}),
+              data-balloon-pos="up"
+            )=mod + ", "

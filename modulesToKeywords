@@ -21,6 +21,7 @@ const [ffirst, ...rrest] = rrows;
 firstRowCopy = `${ffirst}`;
 
 const remap = new Map();
+const modulesToKeywords = new Map();
 
 parse(raw, {}, (err, parsed) => {
   if (err) throw err;
@@ -55,6 +56,7 @@ parse(raw, {}, (err, parsed) => {
           }
           const keywords = mod['keywords'] || [];
           const keywordsWithCounts = _.pick(keywordStats, keywords);
+          modulesToKeywords.set(baseModuleName, keywordsWithCounts);
           let max = Number.NEGATIVE_INFINITY;
           // console.log(keywordsWithCounts);
           for (let prop in keywordsWithCounts) {
@@ -95,6 +97,7 @@ parse(raw, {}, (err, parsed) => {
       // report = report.concat(";\n")
       fs.writeFileSync(process.argv[3] + '.csv', report);
       fs.writeFileSync(process.argv[3] + '_remap.json', uses.serializeMap(remap));
+      fs.writeFileSync(process.argv[3] + '_modulesToKeywords.json', uses.serializeMap(modulesToKeywords));
       // console.log(report);
     });
   });
