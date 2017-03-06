@@ -59,6 +59,4 @@ const reportData = {
   sum: sum
 }
 
-console.error(modulesToKeywords)
-
 console.log(pug.renderFile(__dirname + '/report.pug', reportData));
