@@ -1,5 +1,5 @@
 h2="Remap"
-p="The table below shows which modules and global objects the domains comprise."
+p="The table below shows which modules and global objects the domains comprise. Hover over a module"
 table.pure-table.pure-table-bordered
   thead
     th="Domain"
@@ -11,6 +11,8 @@ table.pure-table.pure-table-bordered
         td
           -for (let mod of remap[domain])
             span(
-              data-balloon=JSON.stringify(modulesToKeywords[mod] || {}),
+              data-balloon=JSON.stringify(modulesToKeywords[mod] || {})
               data-balloon-pos="up"
-            )=mod + ", "
+            )
+              span.baloonable=mod
+              span=", "

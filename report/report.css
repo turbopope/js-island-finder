@@ -42,3 +42,7 @@ body {
 .hidden {
   display: none;
 }
+
+.baloonable {
+  text-decoration: underline;
+}
