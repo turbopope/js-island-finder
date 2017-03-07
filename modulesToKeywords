@@ -6,4 +6,4 @@ const file = process.argv[2];
 const outBase = process.argv[3]
 const keywordStatsFile = process.argv[4];
 
-modulesToKeywords(file, outBase, keywordStatsFile);
+modulesToKeywords(file, outBase, ()=>{}, keywordStatsFile);
