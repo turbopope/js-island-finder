@@ -2,11 +2,20 @@
   "name": "node-island-finder",
   "version": "1.0.0",
   "description": "Finds Islands of Knowledge in Node Git Repositories",
-  "main": "analyze",
+  "main": "index",
   "scripts": {
     "test": "mocha",
     "analyze": "./analyze",
-    "parse": "./parse"
+    "analyze_history": "./analyze_history",
+    "condense": "./condense",
+    "index": "./index",
+    "keywords": "./keywords",
+    "modulesToKeywords": "./modulesToKeywords",
+    "parse": "./parse",
+    "report": "./report",
+    "tabelize": "./tabelize",
+    "track_author": "./track_author",
+    "track_module": "./track_module"
   },
   "author": "Marco Brack",
   "license": "ISC",
