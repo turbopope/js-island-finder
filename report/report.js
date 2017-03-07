@@ -8,10 +8,10 @@ const execSync = require('child_process').execSync;
 const path = require('path');
 
 function report(dataDir, outDir) {
-  const domainsFile           = `${process.cwd()}/${dataDir}domains.csv`;
-  const modulesFile           = `${process.cwd()}/${dataDir}modules.csv`;
-  const remapFile             = `${process.cwd()}/${dataDir}remap.json`;
-  const modulesToKeywordsFile = `${process.cwd()}/${dataDir}modulesToKeywords.json`;
+  const domainsFile           = `${process.cwd()}/${dataDir}condensed.csv`;
+  const modulesFile           = `${process.cwd()}/${dataDir}uses.csv`;
+  const remapFile             = `${process.cwd()}/${dataDir}resolved_remap.json`;
+  const modulesToKeywordsFile = `${process.cwd()}/${dataDir}resolved_modulesToKeywords.json`;
 
   const repoName = dataDir.split(path.sep).slice(-2, -1);
 
