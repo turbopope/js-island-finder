@@ -17,6 +17,4 @@ if (whitelist.length == 0) {
   whitelist = whitelist.map((element, index) => { return `${repo}${element}` });
 }
 
-console.log(`Whitelist is ${whitelist}`)
-
 analyze(repo, whitelist, outDir, treeish);
