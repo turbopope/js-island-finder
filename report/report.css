@@ -2,11 +2,11 @@
   /*font-size: 9px;*/
 }
 
-td.report-row-header, .report-table th {
+td.report-table-row-header, .report-table th {
   background-color: lightgrey;
 }
 
-td.report-row-header {
+td.report-table-row-header, .report-table th {
   white-space: nowrap;
 }
 
@@ -26,7 +26,7 @@ body {
   padding: 8px;
 }
 
-.report-cell { text-align: right; }
+.report-table-cell { text-align: right; }
 
 .report-table .report-heat-0 { background-color: #FFFFFF; color: black; }
 .report-table .report-heat-1 { background-color: #FFE2E2; color: black; }

@@ -17,17 +17,17 @@ table.pure-table.pure-table-bordered.report-table
 br
 table.pure-table.pure-table-bordered.report-table
   thead
-    th=short_title
-    th
+    th.report-table-header-title=short_title
+    th.report-table-header-total
       em="total"
     - for (let col of domains._cols)
-      th(data-balloon=(remap[col] || [col]).join(', '), data-balloon-pos="up")
+      th.report-table-header-domain(data-balloon=(remap[col] || [col]).join(', '), data-balloon-pos="up")
         a(href=`javascript:toggleModules('${col}')`)=col
       - for (let mod of remap[col] || [])
-        th(class=`report-cell-module report-cell-dom-${col} hidden`)=mod
+        th.report-table-header-module(class=`report-cell-dom-${col} hidden`)=mod
   tbody
     tr
-      td.report-row-header
+      td.report-table-row-header
         em="total"
       td=sum(Array.from(domains._rows.keys()).map(row => sum(domains.getRow(row))))
       - for (let col of domains._cols)
@@ -37,11 +37,11 @@ table.pure-table.pure-table-bordered.report-table
 
     - for (let row of domains._rows)
       tr
-      td.report-row-header=row
-      td=sum(domains.getRow(row))
+      td.report-table-row-header=row
+      td.report-table-row-total=sum(domains.getRow(row))
       - for (let col of domains._cols)
         td(
-          class=`report-cell report-heat-${heatmap.get(row, col).heat}`
+          class=`report-table-cell report-heat-${heatmap.get(row, col).heat}`
         )
           span(
             data-balloon=heatmap.get(row, col).percentage
@@ -49,4 +49,4 @@ table.pure-table.pure-table-bordered.report-table
             style="float:left; width:100%; min-width:100%;"
           )=domains.get(row, col)
         - for (let mod of remap[col] || [])
-          td(class=`report-cell-module report-cell-dom-${col} hidden`)=modules.get(row, mod)
+          td(class=`report-table-cell-module report-cell-dom-${col} hidden`)=modules.get(row, mod)
