@@ -39,6 +39,10 @@ body {
   border-left: 2px solid #cbcbcb;
 }
 
+.report-table .report-table-cell-total, .report-table .report-table-cell-total-module {
+  border-bottom: 1px solid #cbcbcb;
+}
+
 .report-table .report-heat-0 { background-color: #FFFFFF; color: black; }
 .report-table .report-heat-1 { background-color: #FFE2E2; color: black; }
 .report-table .report-heat-2 { background-color: #FFC6C6; color: black; }
