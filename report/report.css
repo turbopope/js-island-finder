@@ -1,5 +1,5 @@
 .report-table {
-  /*font-size: 9px;*/
+  border-right: 2px solid #cbcbcb;
 }
 
 td.report-table-row-header, .report-table th {
@@ -25,12 +25,19 @@ td.report-table-row-header, .report-table th {
 .report-table-header-module {
   font-weight: normal;
 }
+.report-table .report-table-cell-module, .report-table .report-table-cell-total-module {
+  border: 1px solid #eaeaea;
+}
 
 body {
   padding: 8px;
 }
 
-.report-table-cell { text-align: right; }
+.report-table .report-table-cell, .report-table .report-table-cell-total {
+  text-align: right;
+  border: 1px solid #eaeaea;
+  border-left: 2px solid #cbcbcb;
+}
 
 .report-table .report-heat-0 { background-color: #FFFFFF; color: black; }
 .report-table .report-heat-1 { background-color: #FFE2E2; color: black; }

@@ -31,9 +31,9 @@ table.pure-table.pure-table-bordered.report-table
         em="total"
       td=sum(Array.from(domains._rows.keys()).map(row => sum(domains.getRow(row))))
       - for (let col of domains._cols)
-        td.report-cell=sum(domains.getCol(col))
+        td.report-table-cell-total=sum(domains.getCol(col))
         - for (let mod of remap[col] || [])
-          td(class=`report-cell-module report-cell-dom-${col} hidden`)=sum(modules.getCol(mod))
+          td(class=`report-table-cell-total-module report-cell-module report-cell-dom-${col} hidden`)=sum(modules.getCol(mod))
 
     - for (let row of domains._rows)
       tr
