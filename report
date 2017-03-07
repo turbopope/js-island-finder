@@ -1,6 +1,6 @@
 #!/usr/bin/node
 
-const report = require('./report.js');
+const report = require('./lib/report/report');
 const path = require('path');
 
 let dataDir = process.argv[2];
