@@ -8,14 +8,14 @@ Finds Islands of Knowledge in Node Git Repositories.
 
 Then generate a report on a repo with the `report` script. The report should be analyzed by a developer to identify Islands of Knowledge.
 
-### Report
+### report
 
 Useage: `report REPO OUT_DIR` (`REPO` must be absolute)
 
 Combines the scripts of this project to generate a html-report on Islands of Knowledge in `REPO`. The report and all intermediate output artifacts are written to `OUT_DIR`.
 
 
-### Analyze
+### analyze
 
 Useage: `./analyze REPO [OUT_DIR [TREE_ISH [SUBPATH...]]]` (`REPO` must be absolute)
 
@@ -24,7 +24,7 @@ Analyze a node git repository `REPO` at the given revision (`TREE_ISH`, [see her
 The result is basically a map of the combination of developer and module to the number of times that developer used that api.
 
 
-### Keywords
+### keywords
 
 The `keywords` script takes the file `out/npm_keywords` with contents of the form
 
