@@ -42,9 +42,9 @@ Takes the CSV report `in` and maps each module to the globally most used keyword
 
 ### condense
 
-Useage: `./condense IN`
+Useage: `./condense IN [OUT]`
 
-Takes the output file of the `modulesToKeywords`-script as a file `IN` and combines columns with the same header (ie module keyword). Removes the second line of the original CSV file (ie the module names).
+Takes the output file of the `modulesToKeywords`-script as a file `IN` and combines columns with the same header (ie module keyword). Removes the second line of the original CSV file (ie the module names). Writes to OUT if given, to stdout otherwise.
 
 
 ### track_author
