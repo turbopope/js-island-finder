@@ -10,6 +10,8 @@ To analyze a repo: `./analyze /path/to/repo/ [out-dir [tree-ish [subpath...]]]` 
 
 The result is basically a map of the combination of developer and module to the number of times that developer used that api. It is output as both a CSV table and a JSON file. The CSV table can than further be processed by the `modulesToKeywords`-script prepend the most-used keyword to each module in another CSV table. That table can than be processed by the `condense`-script, which deletes the module names and combines the useage-counts of all modules with the same keyword.
 
+Finally, the `report/report`-script generates a html-report from the outputs of the previous steps.
+
 
 ### Keywords
 
