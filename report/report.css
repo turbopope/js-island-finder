@@ -22,6 +22,10 @@ td.report-table-row-header, .report-table th {
   padding: 2px;
 }
 
+.report-table-header-module {
+  font-weight: normal;
+}
+
 body {
   padding: 8px;
 }
