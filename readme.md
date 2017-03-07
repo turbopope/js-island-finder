@@ -6,11 +6,22 @@ Finds Islands of Knowledge in Node Git Repositories.
 
 `npm install` once.
 
-To analyze a repo: `./analyze /path/to/repo/ [out-dir [tree-ish [subpath...]]]` (the path must be absolute). Optionally pass an target output directory (defaults to `out/`). Optionally pass a [tree-ish](http://stackoverflow.com/a/18605496) (e.g. a commit-sha1) to specify which revision to analyze (defaults to `master`). Optionally pass a whitelist of subpaths in the directory that should be analyzed. For now, if you want to specify a revision or subpaths, you must specify the previous commits (use the defaults if you are unsure).
+Then generate a report on a repo with the `report` script. The report should be analyzed by a developer to identify Islands of Knowledge.
 
-The result is basically a map of the combination of developer and module to the number of times that developer used that api. It is output as both a CSV table and a JSON file. The CSV table can than further be processed by the `modulesToKeywords`-script prepend the most-used keyword to each module in another CSV table. That table can than be processed by the `condense`-script, which deletes the module names and combines the useage-counts of all modules with the same keyword.
+### Report
 
-Finally, the `report/report`-script generates a html-report from the outputs of the previous steps.
+Useage: `report REPO OUT_DIR` (`REPO` must be absolute)
+
+Combines the scripts of this project to generate a html-report on Islands of Knowledge in `REPO`. The report and all intermediate output artifacts are written to `OUT_DIR`.
+
+
+### Analyze
+
+Useage: `./analyze REPO [OUT_DIR [TREE_ISH [SUBPATH...]]]` (`REPO` must be absolute)
+
+Analyze a node git repository `REPO` at the given revision (`TREE_ISH`, [see here](http://stackoverflow.com/a/18605496)) with an optional whitelist (`SUBPATH...`) and write results in `OUT_DIR`. `OUT_DIR` defaults to `out/`, `TREE_ISH` to `master`.
+
+The result is basically a map of the combination of developer and module to the number of times that developer used that api.
 
 
 ### Keywords
