@@ -3,6 +3,7 @@
 const analyze = require('./lib/analyze');
 const modulesToKeywords = require('./lib/modulesToKeywords');
 const condense = require('./lib/condense');
+const report = require('./report/report.js');
 const execSync = require('child_process').execSync;
 const fs = require('fs');
 
@@ -24,4 +25,5 @@ modulesToKeywords(`${outDir}uses.csv`, `${outDir}resolved`, do_condense);
 
 function do_condense() {
   condense(`${outDir}resolved.csv`, `${outDir}condensed.csv`);
+  report(outDir, outDir);
 }
