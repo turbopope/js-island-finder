@@ -1,0 +1,27 @@
+#!/usr/bin/node
+
+const analyze = require('./lib/analyze');
+const modulesToKeywords = require('./lib/modulesToKeywords');
+const condense = require('./lib/condense');
+const execSync = require('child_process').execSync;
+const fs = require('fs');
+
+let repo = process.argv[2]
+if (!repo.endsWith('/')) { repo += '/' }
+let outDir = process.argv[3]
+if (!outDir.endsWith('/')) { outDir += '/' }
+const revision = process.argv[4] || 'master'
+const whitelist = process.argv.slice(5);
+
+execSync(`mkdir -p ${outDir}`, { cwd: process.cwd(), encoding: 'utf-8' });
+
+
+if (!fs.existsSync(`${outDir}uses.csv`)) {
+  analyze(repo, whitelist, outDir, revision, "uses");
+}
+
+modulesToKeywords(`${outDir}uses.csv`, `${outDir}resolved`, do_condense);
+
+function do_condense() {
+  condense(`${outDir}resolved.csv`, `${outDir}condensed.csv`);
+}
