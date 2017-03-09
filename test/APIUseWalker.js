@@ -86,7 +86,7 @@ describe('APIUseWalker', function() {
       const keyVals = getRequiresKeyVals('./test/src/require-local.js');
       assert.deepEqual(keyVals, [['util', './lib/util']]);
     });
-    it('should record local requires', function() {
+    it('should record module requires', function() {
       const keyVals = getRequiresKeyVals('./test/src/require-module.js');
       assert.deepEqual(keyVals, [['chai', 'chai']]);
     });
