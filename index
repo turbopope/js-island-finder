@@ -12,7 +12,12 @@ if (!repo.endsWith('/')) { repo += '/' }
 let outDir = process.argv[3]
 if (!outDir.endsWith('/')) { outDir += '/' }
 const revision = process.argv[4] || 'master'
-const whitelist = process.argv.slice(5);
+let whitelist = process.argv.slice(5);
+if (whitelist.length == 0) {
+  whitelist = undefined;
+} else {
+  whitelist = whitelist.map((element, index) => { return `${repo}${element}` });
+}
 
 execSync(`mkdir -p ${outDir}`, { cwd: process.cwd(), encoding: 'utf-8' });
 
