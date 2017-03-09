@@ -43,6 +43,16 @@ Additional keys may be given and will be ignored. The script counts the number o
 
 Tags with only one occurrence are omitted. Tags are converted to lowercase. Tags will be printed in descending order, but purely numeric tags are prepended in random order (and I don't know why).
 
+One way to generate the input list of keywords is to replicate the [npm registry](https://skimdb.npmjs.com/registry) to a local [CouchDB](https://couchdb.apache.org/) instance and then use a design document/view with the following code to generate the list:
+
+```JavaScript
+function(doc) {
+  emit(doc.name, doc.keywords || []);
+}
+```
+
+For example, if you have a **CouchDB** instance with **Futon** installed running at `localhost:5985`, got to `http://localhost:5984/_utils/replicator.html`, choose to *Replicate changes from* a *Remote database* with URL `https://skimdb.npmjs.com/registry` to a *Local database* called `npm-registry` and hit the *Replicate* button. This will take some time. To update your replicate, just do the same thing again, it will only update apply the changes since the last replication. Then go to `http://localhost:5984/_utils/database.html?npm-skim/_temp_view` and paste the code above into the *Map Function* textarea. Push the *Save As...* button and save in *Design Document* `_design/``keywords` under *View Name* `keywords`. After that, you can visit the view at `http://localhost:5984/_utils/database.html?npm-skim/_design/keywords/_view/keywords` in futon or as raw JSON at `http://localhost:5984/npm-skim/_design/keywords/_view/keywords`. You can GET the latter with a tool like **curl** and pipe it to the file `out/npm_keywords` like required above.
+
 
 ### modulesToKeywords
 
