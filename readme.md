@@ -2,6 +2,16 @@
 
 Finds Islands of Knowledge in Node Git Repositories.
 
+
+## Dependencies
+
+* Recent-ish version of `node` (tested with `v7.6.0`)
+* `git` (tested with `2.9.3`)
+* (`github-`)`linguist` (https://github.com/github/linguist/, tested with `v5.0.6`)
+* [CouchDB](https://couchdb.apache.org/)
+* A Unix system (because of stuff like `mv` and `mkdir`)
+
+
 ## Useage
 
 `npm install` once.
