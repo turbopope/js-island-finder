@@ -16,18 +16,18 @@ Finds Islands of Knowledge in Node Git Repositories.
 
 `npm install` once.
 
-Then generate a report on a repo with the `report` script. The report should be analyzed by a developer to identify Islands of Knowledge.
+Then analyze a repo and generate a report on a repo with the `index` script. The report should be analyzed by a developer to identify Islands of Knowledge. All scripts are located in the `bin/` directory.
 
-### report
+### index
 
-Useage: `report REPO OUT_DIR` (`REPO` must be absolute)
+Useage: `npm run index REPO OUT_DIR` (`REPO` must be absolute)
 
 Combines the scripts of this project to generate a html-report on Islands of Knowledge in `REPO`. The report and all intermediate output artifacts are written to `OUT_DIR`.
 
 
 ### analyze
 
-Useage: `./analyze REPO [OUT_DIR [TREE_ISH [SUBPATH...]]]` (`REPO` must be absolute)
+Useage: `npm run analyze REPO [OUT_DIR [TREE_ISH [SUBPATH...]]]` (`REPO` must be absolute)
 
 Analyze a node git repository `REPO` at the given revision (`TREE_ISH`, [see here](http://stackoverflow.com/a/18605496)) with an optional whitelist (`SUBPATH...`) and write results in `OUT_DIR`. `OUT_DIR` defaults to `out/`, `TREE_ISH` to `master`.
 
@@ -35,6 +35,8 @@ The result is basically a map of the combination of developer and module to the 
 
 
 ### keywords
+
+Useage: `npm run keywords`
 
 The `keywords` script takes the file `out/npm_keywords` with contents of the form
 
@@ -66,7 +68,7 @@ For example, if you have a **CouchDB** instance with **Futon** installed running
 
 ### modulesToKeywords
 
-Useage: `./modulesToKeywords IN OUTBASE [KEYWORDSSTATFILE]`.
+Useage: `npm run modulesToKeywords IN OUTBASE [KEYWORDSSTATFILE]`.
 
 Takes the CSV report `in` and maps each module to the globally most used keyword from the module's keywords list.
 
@@ -81,14 +83,14 @@ A map from modules that have been looked up to all their keywords and their resp
 
 ### condense
 
-Useage: `./condense IN [OUT]`
+Useage: `npm run condense IN [OUT]`
 
 Takes the output file of the `modulesToKeywords`-script as a file `IN` and combines columns with the same header (ie module keyword). Removes the second line of the original CSV file (ie the module names). Writes to OUT if given, to stdout otherwise.
 
 
 ### track_author
 
-Useage: `./graph_author AUTHOR USEAGE_JSON...`
+Useage: `npm run graph_author AUTHOR USEAGE_JSON...`
 
 Takes a list of the JSON outputs of the `analyze`-script (2nd parameter) and prints to STDOUT a CSV table that tracks the API useages of the specified **author** (1st parameter). For example (spaces inserted for legibility):
 
@@ -103,7 +105,7 @@ rev3.json, 9 , 1     , 0   , 0
 
 ### track_module
 
-Useage: `./graph_module MODULE USEAGE_JSON...`
+Useage: `npm run graph_module MODULE USEAGE_JSON...`
 
 Like `graph_author`, but for a module instead of an author.
 
@@ -120,6 +122,6 @@ rev3.json, 8   , 2   , 0   , 0
 
 ### analyze_history
 
-Useage: `./analyze_request_history /path/to/repo/ [out-dir [n [subpath...]]]`
+Useage: `npm run analyze_request_history /path/to/repo/ [out-dir [n [subpath...]]]`
 
 Analyze every `n`th revision of the given repo with `analyze` (defaults to `n=250`). `out-dir` and `subpath...` are the same arguments as for `analyze` and are passed through to it.
