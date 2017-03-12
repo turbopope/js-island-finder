@@ -1,5 +1,5 @@
 {
-  "name": "node-island-finder",
+  "name": "Node IoK Finder",
   "version": "1.0.0",
   "description": "Finds Islands of Knowledge in Node Git Repositories",
   "scripts": {
