@@ -1,4 +1,4 @@
-# Node Island Finder
+# Node IoK Finder
 
 Finds Islands of Knowledge in Node Git Repositories.
 
