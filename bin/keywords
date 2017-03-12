@@ -3,7 +3,7 @@
 const fs = require('fs')
 const uses = require('../lib/uses')
 
-const raw = fs.readFileSync('out/npm_keywords.json')
+const raw = fs.readFileSync('../out/npm_keywords.json')
 const rows = JSON.parse(raw)['rows']
 const counter = new Map()
 
