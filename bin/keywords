@@ -1,7 +1,7 @@
 #!/usr/bin/node
 
 const fs = require('fs')
-const uses = require('./lib/uses')
+const uses = require('../lib/uses')
 
 const raw = fs.readFileSync('out/npm_keywords.json')
 const rows = JSON.parse(raw)['rows']

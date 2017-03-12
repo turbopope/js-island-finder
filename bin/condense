@@ -1,6 +1,6 @@
 #!/usr/bin/node
 
-const condense = require('./lib/condense');
+const condense = require('../lib/condense');
 
 const inFile = process.argv[2];
 const outFile = process.argv[3];

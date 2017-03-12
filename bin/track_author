@@ -3,7 +3,7 @@
 // Creates a CSV of the history of API useage of one author.
 // Pass the author to extract and a list of useage json files or a dir to extract from
 
-const track = require('./lib/track');
+const track = require('../lib/track');
 
 
 

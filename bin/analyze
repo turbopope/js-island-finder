@@ -2,7 +2,7 @@
 
 "use strict";
 
-const analyze = require('./lib/analyze');
+const analyze = require('../lib/analyze');
 
 
 

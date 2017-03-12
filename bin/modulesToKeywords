@@ -1,6 +1,6 @@
 #!/usr/bin/node
 
-const modulesToKeywords = require('./lib/modulesToKeywords');
+const modulesToKeywords = require('../lib/modulesToKeywords');
 
 const file = process.argv[2];
 const outBase = process.argv[3]

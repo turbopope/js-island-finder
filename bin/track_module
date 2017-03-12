@@ -4,7 +4,7 @@
 // Useage: `./graph_module MODULE USEAGE_JSON...`
 // Pass the module to graph and a list of useage json files to extract from
 
-const track = require('./lib/track');
+const track = require('../lib/track');
 
 
 

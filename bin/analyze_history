@@ -1,6 +1,6 @@
 #!/usr/bin/node
 
-const analyze_history = require('./lib/analyze_history');
+const analyze_history = require('../lib/analyze_history');
 
 
 
