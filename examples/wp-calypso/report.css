@@ -1,0 +1,63 @@
+.report-table {
+  border-right: 2px solid #cbcbcb;
+}
+
+td.report-table-row-header, .report-table th {
+  background-color: lightgrey;
+}
+
+td.report-table-row-header, .report-table th {
+  white-space: nowrap;
+}
+
+.report-table th {
+  border-bottom: 1px solid #cbcbcb;
+}
+
+.report-table a {
+  color: black;
+}
+
+.report-table td, .report-table th {
+  padding: 2px;
+}
+
+.report-table-header-module {
+  font-weight: normal;
+}
+.report-table .report-table-cell-module, .report-table .report-table-cell-total-module {
+  border: 1px solid #eaeaea;
+}
+
+body {
+  padding: 8px;
+}
+
+.report-table .report-table-cell, .report-table .report-table-cell-total {
+  text-align: right;
+  border: 1px solid #eaeaea;
+  border-left: 2px solid #cbcbcb;
+}
+
+.report-table .report-table-cell-total, .report-table .report-table-cell-total-module {
+  border-bottom: 1px solid #cbcbcb;
+}
+
+.report-table .report-heat-0 { background-color: #FFFFFF; color: black; }
+.report-table .report-heat-1 { background-color: #FFE2E2; color: black; }
+.report-table .report-heat-2 { background-color: #FFC6C6; color: black; }
+.report-table .report-heat-3 { background-color: #FFAAAA; color: black; }
+.report-table .report-heat-4 { background-color: #FF8D8D; color: black; }
+.report-table .report-heat-5 { background-color: #FF7171; color: white; }
+.report-table .report-heat-6 { background-color: #FF5555; color: white; }
+.report-table .report-heat-7 { background-color: #FF3838; color: white; }
+.report-table .report-heat-8 { background-color: #FF1C1C; color: white; }
+.report-table .report-heat-9 { background-color: #FF0000; color: white; }
+
+.hidden {
+  display: none;
+}
+
+.baloonable {
+  text-decoration: underline;
+}
