@@ -12,6 +12,7 @@
     "modulesToKeywords": "./bin/modulesToKeywords",
     "parse": "./bin/parse",
     "report": "./bin/report",
+    "scan_for_islands": "./bin/scan_for_islands",
     "tabelize": "./bin/tabelize",
     "track_author": "./bin/track_author",
     "track_module": "./bin/track_module"

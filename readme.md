@@ -25,6 +25,13 @@ Useage: `npm run index REPO OUT_DIR` (`REPO` must be absolute)
 Combines the scripts of this project to generate a html-report on Islands of Knowledge in `REPO`. The report and all intermediate output artifacts are written to `OUT_DIR`.
 
 
+### scan_for_islands
+
+Useage: `npm run index REPO OUT_DIR` (`REPO` must be absolute)
+
+Takes the domain use statistics table from `condense` and applies some metrics to identify Islands of Knowledge.
+
+
 ### analyze
 
 Useage: `npm run analyze REPO [OUT_DIR [TREE_ISH [SUBPATH...]]]` (`REPO` must be absolute)
