@@ -1,7 +1,7 @@
 #!/usr/bin/node
 
 const fs = require('fs');
-const Table = require('../lib/Table');
+const Table = require('table42');
 
 
 // Format Fraction
@@ -30,7 +30,7 @@ for (let col of domains._cols) {
 }
 
 for (let portion_threshold = 1.0; portion_threshold >= 0.24; portion_threshold -= 0.05) {
-  console.log(`-- portion_threshold = ${ff(portion_threshold)}`)
+  // console.log(`-- portion_threshold = ${ff(portion_threshold)}`)
   for (let domain of domains._cols) {
     let totalInDomain = sum(domains.getCol(domain));
 
@@ -49,7 +49,7 @@ for (let portion_threshold = 1.0; portion_threshold >= 0.24; portion_threshold -
 console.log()
 
 for (let carry_threshold = 1; carry_threshold >= 0.24; carry_threshold -= 0.05) {
-  console.log(`-- carry_threshold = ${ff(carry_threshold)}`)
+  // console.log(`-- carry_threshold = ${ff(carry_threshold)}`)
   for (let domain of domains._cols) {
     const usesInDomain = Array.from(domains.getCol(domain)); // Copy
     const authors = Array.from(domains._rows.values()); // Copy
