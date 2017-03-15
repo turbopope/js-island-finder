@@ -2,6 +2,8 @@
 
 Finds Islands of Knowledge in Node Git Repositories.
 
+This tool is the product of my Computer Science Master's Thesis at the University of Koblenz-Landau in Germany.
+
 
 ## Dependencies
 
