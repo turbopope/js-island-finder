@@ -34,7 +34,8 @@
     "pug": "^2.0.0-beta11",
     "require": "^2.4.20",
     "sanitize-filename": "^1.6.1",
-    "sync-request": "^4.0.1"
+    "sync-request": "^4.0.1",
+    "table42": "^1.0.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
