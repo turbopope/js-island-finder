@@ -1,11 +1,6 @@
 #!/usr/bin/node
 
-const analyze = require('../lib/analyze');
-const modulesToKeywords = require('../lib/modulesToKeywords');
-const condense = require('../lib/condense');
-const report = require('../lib/report/report.js');
-const execSync = require('child_process').execSync;
-const fs = require('fs');
+const index = require('../lib/index');
 
 let repo = process.argv[2]
 if (!repo.endsWith('/')) { repo += '/' }
@@ -19,14 +14,4 @@ if (whitelist.length == 0) {
   whitelist = whitelist.map((element, index) => { return `${repo}${element}` });
 }
 
-execSync(`mkdir -p ${outDir}`, { cwd: process.cwd(), encoding: 'utf-8' });
-
-
-analyze(repo, whitelist, outDir, revision, "uses");
-
-modulesToKeywords(`${outDir}uses.csv`, `${outDir}resolved`, do_condense);
-
-function do_condense() {
-  condense(`${outDir}resolved.csv`, `${outDir}condensed.csv`);
-  report(outDir, outDir);
-}
+index(repo, outDir, revision, whitelist);
