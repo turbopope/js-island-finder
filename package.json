@@ -13,6 +13,7 @@
     "parse": "./bin/parse",
     "report": "./bin/report",
     "scan_for_islands": "./bin/scan_for_islands",
+    "scan_for_islands_dyn": "./bin/scan_for_islands_dyn",
     "tabelize": "./bin/tabelize",
     "track_author": "./bin/track_author",
     "track_module": "./bin/track_module"

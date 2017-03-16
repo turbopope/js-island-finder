@@ -1,0 +1,71 @@
+#!/usr/bin/node
+
+const fs = require('fs');
+const Table = require('table42');
+
+
+// Format Fraction
+function ff(fraction) {
+  return (fraction * 100).toFixed(2) + '%';
+}
+
+function sum(ary) {
+  return ary.reduce((a, b) => a + b, 0);
+}
+
+const domains = Table.parse(fs.readFileSync(process.argv[2], { encoding: 'utf-8'} ));
+
+const MODULE_THRESHOLD = 25;
+const AUTHOR_THRESHOLD = 25;
+
+for (let row of domains._rows) {
+  if (sum(domains.getRow(row)) < AUTHOR_THRESHOLD) {
+    domains.removeRow(row);
+  }
+}
+for (let col of domains._cols) {
+  if (sum(domains.getCol(col)) < MODULE_THRESHOLD) {
+    domains.removeCol(col);
+  }
+}
+
+for (let portion_threshold = 1.0; portion_threshold >= 0.24; portion_threshold -= 0.05) {
+  // console.log(`-- portion_threshold = ${ff(portion_threshold)}`)
+  for (let domain of domains._cols) {
+    let totalInDomain = sum(domains.getCol(domain));
+
+    for (let author of domains._rows) {
+      let usesByAuthorInDomain = domains.get(author, domain);
+      let portion = usesByAuthorInDomain / totalInDomain;
+      // let percentage = (fraction * 100).toFixed(2) + '%';
+      // If a developer has more than threshold percent of all uses in the domain
+      if (portion >= portion_threshold) {
+        console.log(`${author} has actual=${ff(portion)} >= threshold=${ff(portion_threshold)} of all uses in ${domain}`);
+      }
+    }
+  }
+}
+
+console.log()
+
+for (let carry_threshold = 1; carry_threshold >= 0.24; carry_threshold -= 0.05) {
+  // console.log(`-- carry_threshold = ${ff(carry_threshold)}`)
+  for (let domain of domains._cols) {
+    const usesInDomain = Array.from(domains.getCol(domain)); // Copy
+    const authors = Array.from(domains._rows.values()); // Copy
+    const carry_author_uses = Math.max(...usesInDomain);
+    const carry_author_index = usesInDomain.indexOf(carry_author_uses);
+    const carry_author = authors[carry_author_index];
+    // console.log(carry_author)
+    usesInDomain.splice(carry_author_index, 1); // Remove
+    authors.splice(carry_author_index, 1); // Remove
+    const second_author_uses = Math.max(...usesInDomain);
+    const second_author_index = usesInDomain.indexOf(second_author_uses);
+    const second_author = authors[second_author_index];
+    const carry_to_second = 1 - second_author_uses / carry_author_uses;
+    // If the 2nd-most active developer has threshold percent less uses than the most active developer (the 'carry')
+    if (carry_to_second >= carry_threshold) {
+      console.log(`#1 ${carry_author} has actual=${ff(carry_to_second)} >= threshold=${ff(carry_threshold)} more uses than #2 ${second_author} in ${domain}`);
+    }
+  }
+}
