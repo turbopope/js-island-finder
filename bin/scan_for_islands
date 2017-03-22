@@ -9,6 +9,7 @@ const result = scan(
     author_threshold: 25,
     portion_threshold: 0.75,
     carry_threshold: 0.75,
-  }
+  },
+  process.argv[3]
 );
 console.log(JSON.stringify(result));
