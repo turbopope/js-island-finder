@@ -6,7 +6,7 @@ const path = require('path');
 describe('APIUseWalker', function() {
   describe('#pruneUnrequired()', function() {
     it('should retain uses of required variables', function() {
-      let walker = new APIUseWalker();
+      let walker = new APIUseWalker(`${__dirname}/../`, __filename); // This is just a spoof to avoid Errors
       walker.record_use('fs', 'john');
       walker.record_use('crypto', 'jade');
       walker.record_require('fs', 'fs');
@@ -14,7 +14,7 @@ describe('APIUseWalker', function() {
       assert.include(Array.from(walker._uses.keys()), 'fs');
     });
     it('should remove uses of unrequired variables', function() {
-      let walker = new APIUseWalker();
+      let walker = new APIUseWalker(`${__dirname}/../`, __filename); // This is just a spoof to avoid Errors
       walker.record_use('fs', 'john');
       walker.record_use('crypto', 'jade');
       walker.record_require('fs', 'fs');
@@ -22,7 +22,7 @@ describe('APIUseWalker', function() {
       assert.notInclude(Array.from(walker._uses.keys()), 'crypto');
     });
     it('should retain uses of global objects', function() {
-      let walker = new APIUseWalker();
+      let walker = new APIUseWalker(`${__dirname}/../`, __filename); // This is just a spoof to avoid Errors
       walker.record_use('Array', 'john');
       walker.record_use('String', 'john');
       walker.record_use('Object', 'john');
@@ -42,7 +42,7 @@ describe('APIUseWalker', function() {
   describe('#pruneLocalModuleRequires()', function() {
     let walker;
     before(function() {
-      walker = new APIUseWalker();
+      walker = new APIUseWalker(`${__dirname}/../`, __filename); // This is just a spoof to avoid Errors
       walker.record_require('fs', 'fs');
       walker.record_require('request', 'request');
       walker.record_require('a', './a');
