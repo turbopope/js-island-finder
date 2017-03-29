@@ -47,7 +47,7 @@ The result is basically a map of the combination of developer and module to the 
 
 Useage: `npm run keywords`
 
-The `keywords` script takes the file `out/npm_keywords` with contents of the form
+The `keywords` script counts the frequency of keywords in the npm-registry. It takes the file `out/npm_keywords.json` with contents of the form
 
 ```JSON
 {"rows": [
@@ -56,13 +56,15 @@ The `keywords` script takes the file `out/npm_keywords` with contents of the for
 ]}
 ```
 
-Additional keys may be given and will be ignored. The script counts the number of occurrences of each tags and prints the result as a JSON object to STDOUT in the form
+and prints the result as a JSON object to STDOUT in the form
 
 ```JSON
 {"tag_a": 5, "tag_b": 4, "tag_c": 2}
 ```
 
-Tags with only one occurrence are omitted. Tags are converted to lowercase. Tags will be printed in descending order, but purely numeric tags are prepended in random order (and I don't know why).
+Keywords with only one occurrence are omitted. Keywords are converted to lowercase. Keywords will be printed in descending order, but purely numeric tags are prepended in random order (and I don't know why).
+
+You should go through the process of creating your own up to date keyword statistics, but if you are just trying this out you can use those already included in the [out/](out/) directory.
 
 One way to generate the input list of keywords is to replicate the [npm registry](https://skimdb.npmjs.com/registry) to a local [CouchDB](https://couchdb.apache.org/) instance and then use a design document/view with the following code to generate the list:
 
@@ -72,7 +74,7 @@ function(doc) {
 }
 ```
 
-For example, if you have a **CouchDB** instance with **Futon** installed running at `localhost:5985`, got to `http://localhost:5984/_utils/replicator.html`, choose to *Replicate changes from* a *Remote database* with URL `https://skimdb.npmjs.com/registry` to a *Local database* called `npm-registry` and hit the *Replicate* button. This will take some time. To update your replicate, just do the same thing again, it will only update apply the changes since the last replication. Then go to `http://localhost:5984/_utils/database.html?npm-skim/_temp_view` and paste the code above into the *Map Function* textarea. Push the *Save As...* button and save in *Design Document* `_design/``keywords` under *View Name* `keywords`. After that, you can visit the view at `http://localhost:5984/_utils/database.html?npm-skim/_design/keywords/_view/keywords` in futon or as raw JSON at `http://localhost:5984/npm-skim/_design/keywords/_view/keywords`. You can GET the latter with a tool like **curl** and pipe it to the file `out/npm_keywords` like required above.
+For example, if you have a **CouchDB** instance with **Futon** installed running at `localhost:5985`, got to `http://localhost:5984/_utils/replicator.html`, choose to *Replicate changes from* a *Remote database* with URL `https://skimdb.npmjs.com/registry` to a *Local database* called `npm-registry` and hit the *Replicate* button. This will take some time. To update your replicate, just do the same thing again, it will only update apply the changes since the last replication. Then go to `http://localhost:5984/_utils/database.html?npm-skim/_temp_view` and paste the code above into the *Map Function* textarea. Push the *Save As...* button and save in *Design Document* `_design/``keywords` under *View Name* `keywords`. After that, you can visit the view at `http://localhost:5984/_utils/database.html?npm-skim/_design/keywords/_view/keywords` in futon or as raw JSON at `http://localhost:5984/npm-skim/_design/keywords/_view/keywords`. You can GET the latter with a tool like **curl** and pipe it to the file `out/npm_keywords.json` like required above.
 
 
 ### modulesToKeywords

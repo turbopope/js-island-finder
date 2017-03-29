@@ -1,3 +1,5 @@
 node_modules/
 .cache/
-out/
+out/*
+!out/npm_keywords.json
+!out/keywords_counted.json
