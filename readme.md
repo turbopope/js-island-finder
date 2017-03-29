@@ -18,7 +18,11 @@ This tool is the product of my Computer Science Master's Thesis at the Universit
 
 `npm install` once.
 
-Then analyze a repo and generate a report on a repo with the `index` script. The report should be analyzed by a developer to identify Islands of Knowledge. All scripts are located in the `bin/` directory.
+Then `npm run index /path/to/repo out/repo` to generate a report for the given into a target folder. The report should be analyzed by a developer to identify Islands of Knowledge. Or run `npm run scan_for_islands out/repo/uses.csv` to produce a metric-based interpretation.
+
+`npm test` to run the (few) unit tests.
+
+All individual scripts are located in and can be run from the `bin/` directory or with `npm run`. They are described below.
 
 ### index
 
