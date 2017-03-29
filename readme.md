@@ -10,7 +10,7 @@ This tool is the product of my Computer Science Master's Thesis at the Universit
 * Recent-ish version of `node` (tested with `v7.6.0`)
 * `git` (tested with `2.9.3`)
 * (`github-`)`linguist` (https://github.com/github/linguist/, tested with `v5.0.6`)
-* [CouchDB](https://couchdb.apache.org/)
+* [CouchDB](https://couchdb.apache.org/) (optional)
 * A Unix system (because of stuff like `mv` and `mkdir`)
 
 
@@ -45,7 +45,7 @@ The result is basically a map of the combination of developer and module to the 
 
 ### keywords
 
-Useage: `npm run keywords`
+Useage: `./bin/keywords`
 
 The `keywords` script counts the frequency of keywords in the npm-registry. It takes the file `out/npm_keywords.json` with contents of the form
 
@@ -62,7 +62,7 @@ and prints the result as a JSON object to STDOUT in the form
 {"tag_a": 5, "tag_b": 4, "tag_c": 2}
 ```
 
-Keywords with only one occurrence are omitted. Keywords are converted to lowercase. Keywords will be printed in descending order, but purely numeric tags are prepended in random order (and I don't know why).
+Keywords with only one occurrence are omitted. Keywords are converted to lowercase. Keywords will be printed in descending order, but purely numeric tags are prepended in random order (and I don't know why). Note that this script should not be run though npm because piping it to a file would also write some npm messages.
 
 You should go through the process of creating your own up to date keyword statistics, but if you are just trying this out you can use those already included in the [out/](out/) directory.
 
